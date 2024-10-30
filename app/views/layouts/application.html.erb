@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>FakeStore</title>
+    <title>Title of store</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "main", media: 'all', "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <link href="./output.css" rel="stylesheet">
   </head>
 
   <body>
+  <%= render 'layouts/nav' %>
     <%= yield %>
   </body>
 </html>

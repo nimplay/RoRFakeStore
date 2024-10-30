@@ -1,0 +1,23 @@
+
+.nav-container{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.nav-title {
+  color:rgb(29, 29, 29);
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.nav-title:hover {
+  color:rgb(3, 110, 172);
+}
+
+.main-links {
+  display: flex;
+  gap: 2rem;
+}
