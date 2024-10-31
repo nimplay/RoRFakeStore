@@ -1,6 +1,6 @@
 .section-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 2rem;
 }
@@ -14,8 +14,13 @@
 
 .section-main-title {
   margin: 0;
-  font-size: 3rem;
+  font-size: 6rem;
+  font-family: "Dancing Script", cursive;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: lighter;
 }
+
 
 .section-main-button-container {
   margin-top: 1rem;
