@@ -1,20 +1,30 @@
+.nav-button-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  margin-top: 5px;
+  margin-left: 5px;
+  gap: 1rem;
+}
+
 .section-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-top: 2rem;
 }
 
 .section-main-data-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   width: 40%;
 }
 
 .section-main-title {
   margin: 0;
-  font-size: 6rem;
+  font-size: 4rem;
   font-family: "Dancing Script", cursive;
   font-optical-sizing: auto;
   font-style: normal;
@@ -29,11 +39,37 @@
 }
 
 .section-main-button {
+    display: flex;
+    gap: 20px;
     font-size: 1.5rem;
     padding: 0.5rem 1rem;
     border-radius: 10px;
     border: none;
-  }
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.section-main-link {
+  display: flex;
+  gap: 20px;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  color:black;
+}
+
+.section-main-nav-img {
+  width: 60px;
+}
+
+.section-main-button-img {
+  width: 30px;
+}
 
 .section-main-image-container {
   width: 40%;
