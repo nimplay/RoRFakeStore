@@ -8,4 +8,10 @@ Rails.application.routes.draw do
   # Store Route
   get '/store', to: 'store#store'
 
+  # Portfolio Route
+  get '/portfolio', to: 'portfolio#portfolio'
+
+   # Bio Route
+  get '/bio', to: 'bio#bio'
+
 end
