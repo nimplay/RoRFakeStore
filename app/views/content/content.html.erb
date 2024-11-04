@@ -1,35 +1,19 @@
 <%= stylesheet_link_tag('sections')%>
-
-<a href=<%= root_path %>
-class='nav-button-style'>
-    <img class='section-main-nav-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage'/>
-    <div>
-      <p>Señora</p>
-      <p>Garabato</p>
-    </div>
-</a>
+<%= render 'nav/nav' %>
 
 <section class='section-container'>
   <div class="section-main-data-container">
-    <a
-      href=<%= store_path %>
-      class= "section-main-link" >
-      <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/pencil.PNG' alt='mainImage'/>
-      Draw Me
-    </a>
     <h1 class="section-main-title">Señora Garabato</h1>
     <p style="margin-bottom: 2rem ;">Ilustración | Diseño de personajes | Animación</p>
     <a
-      href="https://www.instagram.com/senora_garabato/"
-      target='_blank'
-      rel='noreferrer'
-      class= "section-main-link">
-      <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/insta.PNG' alt='mainImage'/>
-      Instagram
+    href=<%= store_path %>
+    class= "section-main-link" >
+      <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/pencil.PNG' alt='mainImage'/>
+      Draw Me
     </a>
   </div>
   <div class="section-main-data-container">
-    <%= content_tag :video, id: "videoPreview", controls: true, width: "400", preload: "metadata" do %>
+    <%= content_tag :video, id: "videoPreview", controls: true, width: "380", preload: "metadata" do %>
       <%= tag :source, src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/Videos/Video+concertido.mp4", type: "video/mp4" %>
       Tu navegador no soporta el video.
     <% end %>
@@ -61,22 +45,23 @@ class='nav-button-style'>
     </div>
   </a>
   <div class='portfolio-container-specific'>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 19ren; height: 14rem"/>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 19ren; height: 14rem"/>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 19ren; height: 14rem"/>
+    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 18rem; height: 16rem"/>
+    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 18rem; height: 16rem"/>
+    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 18rem; height: 16rem"/>
   </div>
 </section>
 
-<section>
-  <div>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 20ren; height: 15rem"/>
+<section class='kofee-container'>
+  <div class='kofee-container'>
+    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 20rem; height: 19rem"/>
     <h1>Sigueme en Kofee</h1>
   </div>
   <a
   href="https://www.instagram.com/senora_garabato/"
   target='_blank'
   rel='noreferrer'
-  class= "section-main-link">
+  class= "section-main-link"
+   style="width: 19rem">
     <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/insta.PNG' alt='mainImage'/>
     Sigueme en instagram
   </a>

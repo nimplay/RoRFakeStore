@@ -133,3 +133,9 @@
   color: white;
   font-size: 2rem;
 }
+
+.kofee-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
