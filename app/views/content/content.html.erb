@@ -3,6 +3,15 @@
 
 <section class='section-container'>
   <div class="section-main-data-container">
+    <a
+    href="https://www.instagram.com/senora_garabato/"
+    target='_blank'
+    rel='noreferrer'
+    class= "section-main-link"
+    style="width: 19rem; margin-top: 2rem;">
+      <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/insta.PNG' alt='mainImage'/>
+      Sigueme en instagram
+    </a>
     <h1 class="section-main-title">Señora Garabato</h1>
     <p style="margin-bottom: 2rem ;">Ilustración | Diseño de personajes | Animación</p>
     <a
@@ -13,7 +22,7 @@
     </a>
   </div>
   <div class="section-main-data-container">
-    <%= content_tag :video, id: "videoPreview", controls: true, width: "380", preload: "metadata" do %>
+    <%= content_tag :video, id: "videoPreview", controls: true, width: "380", height:"675", preload: "metadata" do %>
       <%= tag :source, src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/Videos/Video+concertido.mp4", type: "video/mp4" %>
       Tu navegador no soporta el video.
     <% end %>
@@ -44,25 +53,20 @@
       <p class="portfolio-container-text">Ilustraciones | Retratos | Animaciones</p>
     </div>
   </a>
-  <div class='portfolio-container-specific'>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 18rem; height: 16rem"/>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 18rem; height: 16rem"/>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 18rem; height: 16rem"/>
+
+   <div class='portfolio-container-specific'>
+    <a
+    href="https://ko-fi.com/mrsdoodle"
+    target='_blank'
+    rel='noreferrer'
+    class='kofee-container'>
+      <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/Videos/IMG_7337.GIF' alt='mainImage' style="width: 18rem; height: 16rem"/>
+      <h1>Sigueme en Kofee</h1>
+    </a>
   </div>
 </section>
 
-<section class='kofee-container'>
-  <div class='kofee-container'>
-    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Screenshot+2024-10-31+133341.png' alt='mainImage' style="width: 20rem; height: 19rem"/>
-    <h1>Sigueme en Kofee</h1>
-  </div>
-  <a
-  href="https://www.instagram.com/senora_garabato/"
-  target='_blank'
-  rel='noreferrer'
-  class= "section-main-link"
-   style="width: 19rem">
-    <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/insta.PNG' alt='mainImage'/>
-    Sigueme en instagram
-  </a>
+<section class='section-container'>
+  
 </section>
+<%= render 'footer/footer' %>

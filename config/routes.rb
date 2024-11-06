@@ -13,5 +13,4 @@ Rails.application.routes.draw do
 
    # Bio Route
   get '/bio', to: 'bio#bio'
-
 end
