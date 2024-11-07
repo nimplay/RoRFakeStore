@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
-  # Home Route
-  root to: 'home#home'
+  get "render/index"
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Content Route
-  get '/content', to: 'content#content', as: 'content'
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
 
-  # Store Route
-  get '/store', to: 'store#store'
+  # Render dynamic PWA files from app/views/pwa/*
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Portfolio Route
-  get '/portfolio', to: 'portfolio#portfolio'
-
-   # Bio Route
-  get '/bio', to: 'bio#bio'
+  # Defines the root path route ("/")
+  # root "posts#index"
 end

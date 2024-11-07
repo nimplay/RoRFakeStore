@@ -28,7 +28,6 @@ Rails.application.configure do
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
-  config.public_file_server.enable = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
@@ -73,7 +72,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
   # config.active_job.queue_adapter = :resque
-  # config.active_job.queue_name_prefix = "storefake_production"
+  # config.active_job.queue_name_prefix = "mysite_production"
 
   # Disable caching for Action Mailer templates even if Action Controller
   # caching is enabled.
