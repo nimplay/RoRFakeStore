@@ -10,5 +10,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "dependencies": {
+    "esbuild": "^0.24.0"
+  }
 }
