@@ -1,0 +1,32 @@
+current directory: /mnt/c/Users/nimro/Desktop/NewProjects/fakeStore/vendor/bundle/ruby/3.3.0/gems/date-3.4.0/ext/date
+/root/.rbenv/versions/3.3.5/bin/ruby extconf.rb
+checking for rb_category_warn()... yes
+checking for timezone in time.h with  -Werror... yes
+checking for altzone in time.h with  -Werror... no
+creating Makefile
+
+current directory: /mnt/c/Users/nimro/Desktop/NewProjects/fakeStore/vendor/bundle/ruby/3.3.0/gems/date-3.4.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20241107-24588-louku2 sitelibdir\=./.gem.20241107-24588-louku2 clean
+make: Warning: File 'Makefile' has modification time 36855 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
+
+current directory: /mnt/c/Users/nimro/Desktop/NewProjects/fakeStore/vendor/bundle/ruby/3.3.0/gems/date-3.4.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20241107-24588-louku2 sitelibdir\=./.gem.20241107-24588-louku2
+make: Warning: File 'Makefile' has modification time 36855 s in the future
+compiling date_core.c
+compiling date_parse.c
+compiling date_strftime.c
+compiling date_strptime.c
+linking shared-object date_core.so
+make: warning:  Clock skew detected.  Your build may be incomplete.
+
+current directory: /mnt/c/Users/nimro/Desktop/NewProjects/fakeStore/vendor/bundle/ruby/3.3.0/gems/date-3.4.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20241107-24588-louku2 sitelibdir\=./.gem.20241107-24588-louku2 install
+make: Warning: File 'Makefile' has modification time 36845 s in the future
+/usr/bin/install -c -m 0755 date_core.so ./.gem.20241107-24588-louku2
+make: warning:  Clock skew detected.  Your build may be incomplete.
+
+current directory: /mnt/c/Users/nimro/Desktop/NewProjects/fakeStore/vendor/bundle/ruby/3.3.0/gems/date-3.4.0/ext/date
+make DESTDIR\= sitearchdir\=./.gem.20241107-24588-louku2 sitelibdir\=./.gem.20241107-24588-louku2 clean
+make: Warning: File 'Makefile' has modification time 36845 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
