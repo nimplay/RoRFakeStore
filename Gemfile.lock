@@ -148,7 +148,7 @@ GEM
     psych (5.2.0)
       stringio
     public_suffix (6.0.1)
-    puma (5.6.9)
+    puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.10)
@@ -257,7 +257,7 @@ DEPENDENCIES
   mutex_m
   ostruct
   pg
-  puma (~> 5.0)
+  puma (~> 6.4)
   rails (~> 7.0.4)
   selenium-webdriver
   sprockets-rails
