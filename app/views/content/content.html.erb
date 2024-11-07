@@ -1,0 +1,72 @@
+<%= stylesheet_link_tag('sections')%>
+<%= render 'nav/nav' %>
+
+<section class='section-container'>
+  <div class="section-main-data-container">
+    <a
+    href="https://www.instagram.com/senora_garabato/"
+    target='_blank'
+    rel='noreferrer'
+    class= "section-main-link"
+    style="width: 19rem; margin-top: 2rem;">
+      <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/insta.PNG' alt='mainImage'/>
+      Sigueme en instagram
+    </a>
+    <h1 class="section-main-title">Señora Garabato</h1>
+    <p style="margin-bottom: 2rem ;">Ilustración | Diseño de personajes | Animación</p>
+    <a
+    href=<%= store_path %>
+    class= "section-main-link" >
+      <img class= 'section-main-button-img' src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/pencil.PNG' alt='mainImage'/>
+      Draw Me
+    </a>
+  </div>
+  <div class="section-main-data-container">
+    <%= content_tag :video, id: "videoPreview", controls: true, width: "380", height:"675", preload: "metadata" do %>
+      <%= tag :source, src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/Videos/Video+concertido.mp4", type: "video/mp4" %>
+      Tu navegador no soporta el video.
+    <% end %>
+
+    <%= javascript_tag do %>
+  document.addEventListener("DOMContentLoaded", function() {
+    var video = document.getElementById("videoPreview");
+    if (video) {
+      video.addEventListener("loadedmetadata", function() {
+        setTimeout(function() {
+          video.currentTime = 1.00;
+        }, 200);
+      });
+    }
+  });
+<% end %>
+  </div>
+</section>
+<div class="section-interlude">
+  <p style="margin-top:1rem;">"Soy una artista venezolana residenciada en cualquier parte del mundo gracias al internet. Voy por la vida dibujando a la gente."</p>
+  <h2>Mirwil Mejias</h2>
+</div>
+<section class='portfolio-container-secction'>
+  <a class="portfolio-container" href=<%= portfolio_path %>>
+    <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/PortfolioImg.JPG' alt='mainImage' style="width: 100%"/>
+    <div class="portfolio-container-text-continer">
+      <h1 class="portfolio-container-title">Mi portafolio</h1>
+      <p class="portfolio-container-text">Ilustraciones | Retratos | Animaciones</p>
+    </div>
+  </a>
+
+   <div class='portfolio-container-specific'>
+    <a
+    href="https://ko-fi.com/mrsdoodle"
+    target='_blank'
+    rel='noreferrer'
+    class='kofee-container'>
+      <img src='https://senora-garabato-images.s3.us-east-2.amazonaws.com/Videos/IMG_7337.GIF' alt='mainImage' style="width: 18rem; height: 16rem"/>
+      <h1>Sigueme en Kofee</h1>
+    </a>
+  </div>
+</section>
+
+<section class='section-container'>
+  
+</section>
+<%= render 'footer/footer' %>

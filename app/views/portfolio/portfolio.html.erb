@@ -1,0 +1,54 @@
+<%= stylesheet_link_tag('sections')%>
+<%= stylesheet_link_tag('portfolio')%>
+<%= render 'nav/nav' %>
+
+<section class='container-portfolio'>
+  <div class='portfolio-container-img'>
+    <% images = [
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/BotanicSpiderma.JPG', alt: 'Spider' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/OldLady.JPG', alt: 'OldLAdy' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/patinadora.png', alt: 'Patinadora' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7321.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7285.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7311.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7313.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7314.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7316.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7317.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7318.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7319.JPG', alt: 'img' },
+      { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7320.JPG', alt: 'img' },
+      # Agrega el resto de tus imágenes aquí
+    ] %>
+
+    <% images.each do |image| %>
+      <img src="<%= image[:src] %>" alt="<%= image[:alt] %>" class="portfolio-ing" onclick="openModal('<%= image[:src] %>')"/>
+    <% end %>
+  </div>
+</section>
+
+<!-- Modal -->
+<div id="imageModal" class="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <img class="modal-content" id="modalImage">
+</div>
+
+<section class='container-portfolio'>
+  <!-- Imágenes y Modal HTML aquí -->
+
+  <!-- JavaScript inline en la vista -->
+  <%= javascript_tag do %>
+    function openModal(imageUrl) {
+      var modal = document.getElementById('imageModal');
+      var modalImage = document.getElementById('modalImage');
+      modal.style.display = 'block';
+      modalImage.src = imageUrl;
+    }
+
+    function closeModal() {
+      var modal = document.getElementById('imageModal');
+      modal.style.display = 'none';
+    }
+  <% end %>
+</section>
+

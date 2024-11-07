@@ -1,0 +1,40 @@
+
+.nav-container{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 1rem;
+}
+
+.nav-title {
+  color:rgb(29, 29, 29);
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: bold;
+}
+
+.nav-title:hover {
+  color:rgb(3, 110, 172);
+}
+
+.main-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-container-items-main {
+  display:flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  margin-top:10px;
+}
+
+.nav-container-items {
+  display:flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 20px;
+}
