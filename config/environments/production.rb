@@ -28,6 +28,7 @@ Rails.application.configure do
 
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
+  config.public_file_server.enable = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
