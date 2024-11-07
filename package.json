@@ -1,0 +1,24 @@
+{
+  "name": "fakestore",
+  "version": "1.0.0",
+  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-loader": "^9.2.1",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
