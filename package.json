@@ -16,6 +16,8 @@
     "@hotwired/turbo-rails": "^8.0.12",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
-    "esbuild": "^0.24.0"
+    "bootstrap-icons": "^1.11.3",
+    "esbuild": "^0.24.0",
+    "sass": "^1.80.6"
   }
 }
