@@ -33,4 +33,5 @@ plugin :tmp_restart
 # In other environments, only set the PID file if requested.
 pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
 
-workers ENV.fetch["WEB_CONCURRENCY"] {4}
+workers ENV.fetch("WEB_CONCURRENCY", 4)
+
