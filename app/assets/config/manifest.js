@@ -1,6 +1,4 @@
+//= link_tree ../fonts
 //= link_tree ../images
 //= link_tree ../builds
-//= link sections.css
-//= link main.css
-//= link navbar.css
-//= link portfolio.css
+//= link_tree ../stylesheets
