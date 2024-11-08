@@ -4,7 +4,8 @@
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgb(219, 217, 217);
 }
 
 .nav-title {
@@ -37,4 +38,9 @@
   gap: 1rem;
   align-items: center;
   margin-top: 20px;
+}
+
+.section-main-nav-img {
+  width: 70px;
+  border-radius: 100%;
 }
