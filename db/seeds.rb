@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Product.create!(
+  src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/BotanicSpiderma.JPG',
+  alt: 'Spider',
+  name: 'Retratos',
+  description: 'Retratos ilustrados',
+  price: 10.00,
+  currency: '€'
+)

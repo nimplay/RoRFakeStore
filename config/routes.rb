@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :products
   # Home Route
   root to: "home#home"
 

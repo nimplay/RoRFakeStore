@@ -28,3 +28,4 @@ end
 
 gem "standard", ">= 1.35.1"
 gem "ostruct"
+gem 'sassc-rails'

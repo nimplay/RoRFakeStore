@@ -1,0 +1,14 @@
+.store-main-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.store-container-img {
+    max-width: 30rem;
+}
+
+.store-img {
+    max-width: 25rem;
+    height: auto;
+  }
