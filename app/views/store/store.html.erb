@@ -1,38 +1,30 @@
-<%= stylesheet_link_tag('store')%>
+<%= stylesheet_link_tag('store') %>
 <%= render 'nav/nav' %>
+
 <section class='store-main-container'>
   <h1>Tienda</h1>
   <div>
-  <% images = [
-    { src: 'https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/BotanicSpiderma.JPG',
-      alt: 'Spider',
-      name: 'Retratos',
-      description: 'Retratos ilustrados',
-      price: 10,
-      currency: '€' }
-  ] %>
-
-  <div id="store-items">
-    <% images.each_with_index do |image, index| %>
-      <div class='store-container-img'>
-        <img src="<%= image[:src] %>" alt="<%= image[:alt] %>" class="store-img" onclick="openModal('<%= image[:src] %>')" />
-        <p><%= image[:description] %></p>
-        <p>
-          <%= image[:name] %> - Precio por personaje: <%= image[:price] %><%= image[:currency] %>
-        </p>
-        <div>
-          <label for="quantity_<%= index %>">Cantidad:</label>
-          <input type="number" id="quantity_<%= index %>" min="1" max="6" value="1" onchange="updateTotal()" />
+    <div id="store-items">
+      <% @products.each_with_index do |product, index| %>
+        <div class='store-container-img'>
+          <img src="<%= product.src %>" alt="<%= product.alt %>" class="store-img" onclick="openModal('<%= product.src %>')" />
+          <p><%= product.description %></p>
+          <p>
+            <%= product.name %> - Precio por personaje: <%= product.price %><%= product.currency %>
+          </p>
+          <div>
+            <label for="quantity_<%= index %>">Cantidad:</label>
+            <input type="number" id="quantity_<%= index %>" min="1" max="6" value="1" onchange="updateTotal()" />
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
+    <div class="store-total">
+      <h3>Total: <span id="total-price">0</span> <%= @products.first.currency %></h3>
+      <button onclick="processPayment()">Pay with PayPal</button>
+    </div>
   </div>
-
-  <div class="store-total">
-    <h3>Total: <span id="total-price">0</span> <%= images[0][:currency] %></h3>
-    <button onclick="processPayment()">Pay with PayPal</button>
-  </div>
-</div>
 </section>
+
 
 
