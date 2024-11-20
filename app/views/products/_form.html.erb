@@ -20,10 +20,15 @@
     <%= form.label :description, style: "display: block" %>
     <%= form.text_area :description %>
   </div>
+  
+  <div>
+  <%= form.label :max, style: "display: block" %>
+  <%= form.number_field :max %>
+</div>
 
   <div>
     <%= form.label :price, style: "display: block" %>
-    <%= form.text_field :price %>
+    <%= form.number_field :price, step: "0.01" %>
   </div>
 
   <div>

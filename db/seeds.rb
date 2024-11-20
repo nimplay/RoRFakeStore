@@ -12,6 +12,7 @@ Product.create!(
   alt: 'Spider',
   name: 'Retratos',
   description: 'Retratos ilustrados',
-  price: 10.00,
-  currency: '€'
+  price: 10,
+  currency: '$',
+  max: 6
 )
