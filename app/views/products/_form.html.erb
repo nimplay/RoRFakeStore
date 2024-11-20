@@ -12,23 +12,28 @@
   <% end %>
 
   <div>
+    <%= form.label :src, style: "display: block" %>
+    <%= form.text_field :src %>
+  </div>
+
+  <div>
+    <%= form.label :alt, style: "display: block" %>
+    <%= form.text_field :alt %>
+  </div>
+
+  <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
   </div>
 
   <div>
     <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
+    <%= form.text_field :description %>
   </div>
-  
-  <div>
-  <%= form.label :max, style: "display: block" %>
-  <%= form.number_field :max %>
-</div>
 
   <div>
     <%= form.label :price, style: "display: block" %>
-    <%= form.number_field :price, step: "0.01" %>
+    <%= form.text_field :price %>
   </div>
 
   <div>
@@ -37,13 +42,8 @@
   </div>
 
   <div>
-    <%= form.label :src, style: "display: block" %>
-    <%= form.text_field :src %>
-  </div>
-
-  <div>
-    <%= form.label :alt, style: "display: block" %>
-    <%= form.text_field :alt %>
+    <%= form.label :max, style: "display: block" %>
+    <%= form.number_field :max %>
   </div>
 
   <div>

@@ -70,7 +70,7 @@ const updateInvoice = () => {
     const row = `
       <tr>
         <td>${product.name}</td>
-        <td>${product.price}</td>
+        <td>${parseFloat(product.price).toFixed(2)}</td>
         <td>${product.quantity}</td>
         <td>${product.total}</td>
       </tr>

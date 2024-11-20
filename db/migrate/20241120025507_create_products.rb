@@ -5,7 +5,7 @@ class CreateProducts < ActiveRecord::Migration[7.2]
       t.string :alt
       t.string :name
       t.string :description
-      t.float :price
+      t.decimal :price
       t.string :currency
       t.integer :max
 

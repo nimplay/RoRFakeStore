@@ -17,6 +17,7 @@ class ProductsTest < ApplicationSystemTestCase
     fill_in "Alt", with: @product.alt
     fill_in "Currency", with: @product.currency
     fill_in "Description", with: @product.description
+    fill_in "Max", with: @product.max
     fill_in "Name", with: @product.name
     fill_in "Price", with: @product.price
     fill_in "Src", with: @product.src
@@ -33,6 +34,7 @@ class ProductsTest < ApplicationSystemTestCase
     fill_in "Alt", with: @product.alt
     fill_in "Currency", with: @product.currency
     fill_in "Description", with: @product.description
+    fill_in "Max", with: @product.max
     fill_in "Name", with: @product.name
     fill_in "Price", with: @product.price
     fill_in "Src", with: @product.src
