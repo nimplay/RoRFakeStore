@@ -1,10 +1,12 @@
 <%= stylesheet_link_tag('store') %>
+<%= javascript_include_tag "store" %>
+
 <%= render 'nav/nav' %>
 
 <section class='store-main-container'>
   <h1>Tienda</h1>
   <div>
-    <div id="store-items">
+    <div id="store-items" class="store-container-list">
       <% @products.each_with_index do |product, index| %>
         <div class='store-container-img'>
           <img src="<%= product.src %>" alt="<%= product.alt %>" class="store-img" onclick="openModal('<%= product.src %>')" />
@@ -13,18 +15,42 @@
             <%= product.name %> - Precio por personaje: <%= product.price %><%= product.currency %>
           </p>
           <div>
-            <label for="quantity_<%= index %>">Cantidad:</label>
-            <input type="number" id="quantity_<%= index %>" min="1" max="6" value="1" onchange="updateTotal()" />
+            <label for="quantity_<%= index %>">Cantidad de personajes:</label>
+            <input type="number" id="quantity_<%= index %>" min="0" max="6" value="0" onchange="updateLocalTotal(<%= index %>, <%= product.price %>)" />
+          </div>
+          <div class="store-total">
+            <h3>
+              Total local: <span id="local-total_<%= index %>">0</span> <%= product.currency %>
+            </h3>
+            <button onclick="addToCart(<%= index %>)">Añadir al carrito</button>
           </div>
         </div>
       <% end %>
     </div>
-    <div class="store-total">
-      <h3>Total: <span id="total-price">0</span> <%= @products.first.currency %></h3>
-      <button onclick="processPayment()">Pay with PayPal</button>
-    </div>
+  </div>
+
+  <!-- Global Total Section -->
+  <div class="grand-total-container">
+    <h2>Carrito de Compras</h2>
+    <table id="invoice-table" class="invoice">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio Base</th>
+          <th>Cantidad</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody id="invoice-body">
+        <!-- Factura dinámica aquí -->
+      </tbody>
+    </table>
+    <h3>Total global: <span id="grand-total">0</span> <%= @products.first.currency %></h3>
+    <button onclick="processPayment()">Pagar con PayPal</button>
   </div>
 </section>
 
-
-
+<script>
+  const products = <%= raw @products.to_json %>;
+  console.log(products); // Puedes ver cómo se estructuran los productos
+</script>

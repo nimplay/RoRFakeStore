@@ -2,10 +2,19 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.store-container-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
 }
 
 .store-container-img {
     max-width: 30rem;
+    margin-bottom: 1rem;
 }
 
 .store-img {

@@ -10,11 +10,12 @@
     <link rel="icon" href="/senoragarabatofav.ico" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "main", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "text/javascript" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body>
-  
+
     <%= yield %>
   </body>
 </html>
