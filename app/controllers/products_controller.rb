@@ -1,70 +1,78 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
-  # GET /products or /products.json
+  # GET /products
   def index
     @products = Product.all
   end
 
-  # GET /products/1 or /products/1.json
+  # GET /products/1
   def show
   end
 
   # GET /products/new
   def new
     @product = Product.new
+    # Asegúrate de inicializar subcategories como un array vacío
+    @product.subcategory ||= []
   end
 
   # GET /products/1/edit
   def edit
+    @product = Product.find(params[:id])
+    # Asegúrate de que subcategories no sea nil al editar
+    @product.subcategory ||= []
   end
 
-  # POST /products or /products.json
+  # POST /products
   def create
     @product = Product.new(product_params)
 
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: "Product was successfully created." }
-        format.json { render :show, status: :created, location: @product }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.save
+      redirect_to @product, notice: 'El producto fue creado con éxito.'
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /products/1 or /products/1.json
   def update
-    respond_to do |format|
-      if @product.update(product_params)
-        format.html { redirect_to @product, notice: "Product was successfully updated." }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
+    if @product.update(product_params)
+      redirect_to @product, notice: 'El producto fue actualizado con éxito.'
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /products/1 or /products/1.json
+  # DELETE /products/1
   def destroy
-    @product.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to products_path, status: :see_other, notice: "Product was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @product.destroy
+    redirect_to products_url, notice: 'El producto fue eliminado con éxito.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      @product = Product.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def product_params
-      params.require(:product).permit(:src, :alt, :name, :description, :price, :currency, :max)
+  # Buscar producto por ID
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  def product_params
+    params.require(:product).permit(
+      :name,
+      :description,
+      :currency,
+      subcategory: [:id, :name, :description, :price, :src, :alt]
+    ).tap do |whitelisted|
+      # Si no hay subcategorías en los parámetros, preserva las subcategorías anteriores
+      if params[:product][:subcategory].blank?
+        # Mantén las subcategorías previas si existen, o asigna un array vacío
+        whitelisted[:subcategory] = @product.subcategory.presence || [{}]
+      else
+        # Si hay subcategorías nuevas, asegúrate de que todas tengan la estructura esperada
+        whitelisted[:subcategory].each do |subcategory|
+          subcategory[:id] ||= nil  # Asegúrate de que el ID esté presente si es necesario
+        end
+      end
     end
+  end
 end

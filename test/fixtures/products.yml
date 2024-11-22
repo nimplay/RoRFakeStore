@@ -1,19 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  src: MyString
-  alt: MyString
-  name: MyString
+  product: MyString
   description: MyString
-  price: 9.99
   currency: MyString
-  max: 1
+  subcategory: 
 
 two:
-  src: MyString
-  alt: MyString
-  name: MyString
+  product: MyString
   description: MyString
-  price: 9.99
   currency: MyString
-  max: 1
+  subcategory: 

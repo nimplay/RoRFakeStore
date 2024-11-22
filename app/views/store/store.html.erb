@@ -1,13 +1,17 @@
 <%= stylesheet_link_tag('store') %>
-<%= stylesheet_link_tag('sections')%>
+<%= stylesheet_link_tag('sections') %>
 <%= javascript_include_tag "store" %>
 
 <%= render 'nav/nav' %>
 
+
 <script>
+  // Cargar los productos una sola vez
   const products = <%= raw @products.to_json %>;
-  console.log(products); // Puedes ver cómo se estructuran los productos
+  console.log(products);
+  console.log(products[0].subcategory);
 </script>
+
 <section class='store-main-container'>
   <div class="cart-secction">
     <button class="car-top-button" onclick="openCartModal()">
@@ -15,57 +19,78 @@
     </button>
     <div id="cart-notification" class="cart-notification hidden">0</div>
   </div>
+
   <% if notice %>
     <p style="color: green"><%= notice %></p>
   <% end %>
-  <div>
-    <div id="store-items" class="store-container-list">
-      <% @products.each_with_index do |product, index| %>
-        <div class='store-container-img'>
-          <img src="<%= product.src %>" alt="<%= product.alt %>" class="store-img" onclick="openModal('<%= product.src %>')" />
-          <div class='store-container-description'>
-            <h1 style="font-size:30px; margin:0"><%= product.name %></h1>
-            <p style="font-size:14px"><%= product.description %></p>
-            <p style="font-size:16px">Precio por personaje: <b><%= product.price %><%= product.currency %></b></p>
-            <div class="store-total">
-              <div class="store-quantity">
-                <p style="font-size:14px" for="quantity_<%= index %>">Número de personajes:</p>
-                <input class="quantity-selector" type="number" id="quantity_<%= index %>" min="0" max="<%= product.max %>" value="0" onchange="updateLocalTotal(<%= index %>, <%= product.price %>); toggleAddButton(<%= index %>)" />
-              </div>
-              <h4 style="font-size:25px; margin:0">
-                Total: <span id="local-total_<%= index %>">0</span> <%= product.currency %>
-              </h4>
-              <button class="button-55 car-button" id="add-button_<%= index %>" onclick="addToCart(<%= index %>)" disabled>Añadir al carrito</button>
-            </div>
-          </div>
 
+  <div id="store-items" class="store-container-list">
+    <% @products.each_with_index do |product, index| %>
+      <div class='store-container-img'>
+        <!-- Imagen del producto -->
+        <img src="<%= product['subcategory'][0]['src'] %>" alt="<%= product['subcategory'][0]['alt'] %>" class="store-img" id="product-image-<%= index %>" />
+
+        <div class='store-container-description'>
+          <h1 style="font-size:30px; margin:0"><%= product['name'] %></h1>
+          <p style="font-size:14px"><%= product['description'] %></p>
+          <p style="font-size:16px">
+            Precio desde:
+            <b>
+              <span id="initial-product-price-<%= index %>">
+                <%= product['subcategory'][0]['price'] %>
+              </span>
+              <%= product['currency'] %>
+            </b>
+          </p>
+
+          <div class="store-total">
+            <div class="store-quantity">
+              <p style="font-size:14px" for="quantity_<%= index %>">Seleccionar:</p>
+              <select id="subcategory-select-<%= index %>" onchange="updateDetails(<%= index %>)">
+                <option value="">Seleccione</option>
+                <% product['subcategory'].each_with_index do |subcategory, sub_index| %>
+                  <option value="<%= sub_index %>">
+                    <%= subcategory['name'] %> - <%= product['currency'] %><%= subcategory['price'] %>
+                  </option>
+                <% end %>
+              </select>
+            </div>
+            <p id="subcategory-description-<%= index %>" style="font-size:14px; color: gray;"></p>
+            <h4 style="font-size:25px; margin:0">
+              Total:
+              <b>
+                <span id="local-total-<%= index %>">0</span>
+                <%= product['currency'] %>
+              </b>
+            </h4>
+            <button class="button-55 car-button" id="add-button-<%= index %>" onclick="addToCart(<%= index %>)" disabled>Añadir al carrito</button>
+          </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Notificación de producto añadido al carrito -->
+  <div id="add-to-cart-notification" class="add-to-cart-notification hidden">
+    Producto añadido al carrito
   </div>
 </section>
 
-<!-- Global Total Section -->
+<!-- Modal de Carrito de Compras -->
 <div id="cart-modal" class="modal">
-  <div class="modal-backdrop"></div>
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <h2>Carrito de Compras</h2>
-    <table id="invoice-table" class="invoice">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Precio Base</th>
-          <th>Cantidad</th>
-          <th>Total</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="invoice-body">
-        <!-- Factura dinámica aquí -->
-      </tbody>
-    </table>
-    <h3>Total global: <span id="grand-total">0</span> <%= @products.first.currency %></h3>
-    <button onclick="processPayment()">Pagar con PayPal</button>
+  <div class="modal-inner">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Tu Carrito</h2>
+      <div id="cart-items">
+        <p>Tu carrito está vacío.</p>
+      </div>
+      <!-- Nuevo div para el total -->
+      <div id="cart-total">
+        <h3>Total: <span id="total-price">Aqui va el total</span></h3>
+      </div>
+      <%=link_to "Checkout", paypal_checkouts_path, method: :post %>
+    </div>
   </div>
 </div>

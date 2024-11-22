@@ -14,4 +14,13 @@ Rails.application.routes.draw do
 
    # Bio Route
   get "/bio", to: "bio#bio"
+
+  namespace :paypal do
+    resources :checkouts, only: [:create] do
+      collection do
+        get :thank_you, path: 'thank-you' 
+        get :cancel
+      end
+    end
+  end
 end

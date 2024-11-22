@@ -1,203 +1,204 @@
 // Array para almacenar los productos en el carrito
-const cart = [];
-let globalTotal = 0;
-let cartCount = 0;
+let cart = [];
 
-// Añadir un producto al carrito
-function addToCart(index) {
-  const product = products[index];
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const existingItemIndex = cartItems.findIndex(
-    (item) => item.name === product.name
-  );
-
-  if (existingItemIndex !== -1) {
-    if (
-      cartItems[existingItemIndex].quantity < cartItems[existingItemIndex].max
-    ) {
-      cartItems[existingItemIndex].quantity += 1;
-    } else {
-      alert("Has alcanzado el máximo disponible para este producto.");
-      return;
-    }
-  } else {
-    cartItems.push({
-      name: product.name,
-      price: product.price,
-      currency: product.currency,
-      src: product.src,
-      quantity: 1,
-      max: product.max,
-    });
-  }
-
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  updateCart();
-
-  // Mostrar Toast de confirmación
-  showToast(`${product.name} ha sido añadido al carrito.`);
-
-  // Actualizar la notificación del carrito
-  updateCartNotification();
-}
-
-// Sincronizar la notificación del carrito al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-  updateCartNotification(); // Asegura que el contador esté sincronizado
-});
-
-
-// Actualizar notificacion del carrito
-function updateCartNotification() {
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-
-  const notification = document.getElementById('cart-notification');
-  notification.textContent = totalItems;
-
-  // Mostrar u ocultar la notificación
-  if (totalItems > 0) {
-    notification.classList.remove('hidden');
-  } else {
-    notification.classList.add('hidden');
+// Recuperar el carrito desde localStorage al cargar la página
+function loadCartFromLocalStorage() {
+  const storedCart = localStorage.getItem("cart");
+  if (storedCart) {
+    cart = JSON.parse(storedCart); // Convertir el string del localStorage a un array de objetos
   }
 }
 
+// Función para actualizar el total cuando cambia la selección de subcategorías
+function updateTotal(index) {
+  const selectElement = document.getElementById(`subcategory-select-${index}`);
+  const selectedPrice = parseFloat(selectElement.value); // Convertir el precio a número
+  const totalElement = document.getElementById(`local-total-${index}`);
 
-
-// Simulación para abrir el modal del carrito
-function openCartModal() {
-  console.log("Abriendo el modal del carrito...");
-}
-
-// Función para mostrar un toast
-function showToast(message) {
-  const toast = document.createElement("div");
-  toast.innerText = message;
-  toast.style.position = "fixed";
-  toast.style.bottom = "20px";
-  toast.style.right = "20px";
-  toast.style.backgroundColor = "#4CAF50";
-  toast.style.color = "white";
-  toast.style.padding = "10px 20px";
-  toast.style.borderRadius = "5px";
-  toast.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
-  toast.style.zIndex = "1000";
-  document.body.appendChild(toast);
-
-  // Ocultar el Toast después de 3 segundos
-  setTimeout(() => {
-    toast.remove();
-  }, 3000);
-}
-
-// Actualizar la cantidad de un producto en el carrito
-function updateQuantity(index) {
-  let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const newQuantity = document.getElementById(`quantity_${index}`).value;
-
-  if (newQuantity < 0 || newQuantity > cartItems[index].max) {
-    alert(
-      `La cantidad no puede ser menor que 0 o mayor que ${cartItems[index].max}.`
-    );
+  if (isNaN(selectedPrice)) {
+    totalElement.innerText = "0";
     return;
   }
 
-  cartItems[index].quantity = parseInt(newQuantity);
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-
-  updateCart();
+  totalElement.innerText = selectedPrice.toFixed(2); // Mostrar con 2 decimales
 }
 
-// Actualizar el carrito con los productos añadidos
-function updateCart() {
-  const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  const invoiceBody = document.getElementById("invoice-body");
-  const grandTotalElement = document.getElementById("grand-total");
-  invoiceBody.innerHTML = "";
-  let grandTotal = 0;
+// Función para actualizar la imagen del producto cuando se selecciona una subcategoría
+function updateImage(index) {
+  const selectElement = document.getElementById(`subcategory-select-${index}`);
+  const selectedSubIndex = selectElement.value; // Índice de la subcategoría seleccionada
+  const imageElement = document.getElementById(`product-image-${index}`);
 
-  cartItems.forEach((item, index) => {
-    const productTotal = item.quantity * item.price;
-    grandTotal += productTotal;
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td class="centered-content">
-        <img src="${item.src}" alt="${item.name}" width="60" /> ${item.name}
-      </td>
-      <td>${item.price} ${item.currency}</td>
-      <td>
-        <input
-          type="number"
-          value="${item.quantity}"
-          min="0"
-          max="${item.max}"
-          id="quantity_${index}"
-          onchange="updateQuantity(${index})"
-        />
-      </td>
-      <td>${productTotal.toFixed(2)} ${item.currency}</td>
-      <td>
-        <button class="button-delete" onclick="removeItem(${index})">X</button>
-      </td>
-    `;
-    invoiceBody.appendChild(row);
-  });
-
-  grandTotalElement.innerText = grandTotal.toFixed(2);
-}
-
-// Eliminar un producto del carrito
-function removeItem(index) {
-  let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-  cartItems.splice(index, 1);
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  updateCart();
-}
-
-// Actualizar el total local (solo muestra el subtotal por producto)
-const updateLocalTotal = (index) => {
-  const quantityInput = document.getElementById(`quantity_${index}`);
-  const localTotalSpan = document.getElementById(`local-total_${index}`);
-  const product = products[index];
-  const quantity = parseInt(quantityInput.value, 10) || 0;
-  const localTotal = quantity * product.price;
-
-  localTotalSpan.textContent = localTotal.toFixed(2);
-};
-
-// Desabilitar boton del carrito
-function toggleAddButton(index) {
-  const quantityInput = document.getElementById(`quantity_${index}`);
-  const addButton = document.getElementById(`add-button_${index}`);
-  const quantity = parseInt(quantityInput.value, 10);
-
-  // Habilitar o deshabilitar el botón
-  if (quantity > 0) {
-    addButton.disabled = false;
-  } else {
-    addButton.disabled = true;
+  if (selectedSubIndex === "") {
+    return;
   }
+
+  const subcategory = products[index].subcategory[selectedSubIndex];
+  imageElement.src = subcategory.src; // Actualiza la imagen con la nueva fuente
+  imageElement.alt = subcategory.alt; // Actualiza el texto alternativo de la imagen
 }
 
-// Abrir el modal
+// Función para actualizar el total y la descripción al seleccionar una subcategoría
+function updateDetails(index) {
+  const selectElement = document.getElementById(`subcategory-select-${index}`);
+  const selectedSubIndex = selectElement.value; // Índice de la subcategoría seleccionada
+  const totalElement = document.getElementById(`local-total-${index}`);
+  const descriptionElement = document.getElementById(`subcategory-description-${index}`);
+
+  if (selectedSubIndex === "") {
+    totalElement.innerText = "0";
+    descriptionElement.innerText = " ";
+    return;
+  }
+
+  const subcategory = products[index].subcategory[selectedSubIndex];
+  totalElement.innerText = parseFloat(subcategory.price).toFixed(2);
+  descriptionElement.innerText = subcategory.description || "Sin descripción disponible.";
+
+  // Llamar a la función para actualizar la imagen
+  updateImage(index);
+
+  // Habilitar el botón de agregar al carrito si se ha seleccionado una subcategoría
+  document.getElementById(`add-button-${index}`).disabled = false;
+}
+
+// Función para abrir el modal del carrito
 function openCartModal() {
   const modal = document.getElementById("cart-modal");
-  modal.style.display = "block";
-  updateCart();
+  modal.classList.add("open");
 }
 
-// Cerrar el modal
+// Función para cerrar el modal
 function closeModal() {
   const modal = document.getElementById("cart-modal");
-  modal.style.display = "none";
+  modal.classList.remove("open");
 }
 
-// Simular un proceso de pago
-const processPayment = () => {
-  if (globalTotal > 0) {
-    alert(`Procesando el pago de ${globalTotal.toFixed(2)}...`);
+// Función para actualizar la notificación del carrito
+function updateCartNotification() {
+  const notification = document.getElementById("cart-notification");
+  notification.textContent = cart.length; // Muestra el número de productos en el carrito
+  if (cart.length > 0) {
+    notification.classList.remove("hidden");
   } else {
-    alert("El carrito está vacío. Agrega productos antes de pagar.");
+    notification.classList.add("hidden");
   }
+}
+
+// Función para agregar productos al carrito
+function addToCart(index) {
+  const product = products[index];
+  const selectElement = document.getElementById(`subcategory-select-${index}`);
+  const selectedSubcategoryIndex = selectElement.value;
+
+  if (selectedSubcategoryIndex === "") {
+    alert("Por favor selecciona una subcategoría.");
+    return;
+  }
+
+  const subcategory = product["subcategory"][selectedSubcategoryIndex];
+
+  const cartItem = {
+    name: product["name"],
+    subcategory: subcategory["name"],
+    link: subcategory["src"],
+    alt: subcategory["alt"],
+    price: subcategory["price"],
+    currency: product["currency"],
+  };
+
+  cart.push(cartItem); // Agregar el producto al carrito
+
+  // Guardar el carrito en el localStorage
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  updateCartNotification(); // Actualizar la notificación del carrito
+  updateCartItems(); // Mostrar los elementos del carrito en el modal
+
+  // Actualizar el total en el modal
+  updateTotalInModal();
+
+  // Mostrar la notificación de producto añadido al carrito
+  showAddToCartNotification();
+}
+
+// Función para mostrar la notificación de producto añadido al carrito
+function showAddToCartNotification() {
+  const notification = document.getElementById("add-to-cart-notification");
+  notification.classList.add("show");
+
+  // Ocultar la notificación después de 3 segundos
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 3000); // 3 segundos
+}
+
+// Función para eliminar un producto del carrito
+function removeItemFromCart(index) {
+  // Eliminar el producto del carrito usando el índice
+  cart.splice(index, 1);
+
+  // Guardar el carrito actualizado en el localStorage
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  // Actualizar la vista del carrito y el total después de eliminar el producto
+  updateCartItems();
+  updateTotalInModal();
+  updateCartNotification();
+}
+
+// Función para actualizar los elementos dentro del carrito en el modal
+function updateCartItems() {
+  const cartItemsContainer = document.getElementById("cart-items");
+  cartItemsContainer.innerHTML = ""; // Limpiar el contenido actual
+
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
+  } else {
+    cart.forEach((item, index) => {
+      const itemElement = document.createElement("div");
+      itemElement.classList.add("cart-item");
+      itemElement.innerHTML = `
+      <div class="cart-item-container">
+        <div class="cart-item-img">
+          <img src="${item.link}" alt="${item.alt}" />
+        </div>
+        <div class="cart-item-details">
+          <p class="cart-item-name">${item.name} <br /> ${item.subcategory}</p>
+          <p>Cantidad: ${item.price} ${item.currency}</p>
+        </div>
+        <button onclick="removeItemFromCart(${index})">X</button>
+      </div>
+      `;
+      cartItemsContainer.appendChild(itemElement);
+    });
+  }
+}
+
+// Función para actualizar el total del carrito en el modal
+function updateTotalInModal() {
+  let total = 0;
+  const currency = '$';
+
+  // Sumar el precio de todos los productos en el carrito
+  cart.forEach(item => {
+    total += parseFloat(item.price); // Sumar el precio del producto
+  });
+
+  // Actualizar el contenido del elemento con el total
+  const totalPriceElement = document.getElementById("total-price");
+  totalPriceElement.textContent = `${total.toFixed(2)} ${currency}`; // Añadir el símbolo de la moneda al total
+}
+
+// Función de ejemplo para el pago
+function processPayment() {
+  alert("Procesando pago...");
+}
+
+// Llamar a la función para cargar el carrito desde localStorage cuando se cargue la página
+window.onload = function() {
+  loadCartFromLocalStorage();
+  updateCartNotification();
+  updateCartItems();
+  updateTotalInModal();
 };

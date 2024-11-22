@@ -1,4 +1,4 @@
-
+/* Estilos generales para la página */
 .store-main-container {
     width: 100%;
     display: flex;
@@ -66,7 +66,23 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    position: relative; /* Importante para posicionar elementos internos */
+}
+
+/* Estilos del carrito con animación deslizante de derecha a izquierda */
+.cart-container {
+    position: fixed;
+    top: 0;
+    right: -40%;  /* Inicialmente fuera de la pantalla */
+    width: 40%;  /* Contenedor del carrito ocupa un 40% del ancho */
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.3);
+    transition: right 0.5s ease;  /* Transición suave al abrir o cerrar el carrito */
+    z-index: 1001;
+}
+
+.cart-container.open {
+    right: 0; /* Cuando el carrito está abierto, se desplaza a la derecha */
 }
 
 .car-top-button {
@@ -74,13 +90,13 @@
     height: 60px;
     background-color: white;
     border: none;
-    position: relative; /* Asegura que la notificación esté relativa al botón */
+    cursor: pointer; /* Añadir cursor para mayor usabilidad */
 }
 
 .cart-notification {
-    position: absolute; /* Cambiado a absolute para estar relativo al botón */
-    bottom: 5px; /* Ajusta el valor según sea necesario */
-    right: 5px; /* Ajusta el valor según sea necesario */
+    position: relative;
+    top: 40px;
+    right: 20px;
     width: 15px;
     height: 15px;
     background-color: red;
@@ -92,18 +108,17 @@
     justify-content: center;
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    z-index: 10; /* Asegúrate de que esté encima de otros elementos */
+    z-index: 10;
     animation: heartbeat 1.5s infinite;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Ocultar notificación */
 .hidden {
     opacity: 0;
     transform: scale(0);
 }
 
-/* Animación de palpitar */
+/* Animación de "palpitar" para el contador de notificaciones */
 @keyframes heartbeat {
     0%, 100% {
         transform: scale(1);
@@ -113,67 +128,142 @@
     }
 }
 
-
-/* Estilos para el modal */
-.modal {
-    display: none; /* Ocultar el modal por defecto */
+/* Estilos para el fondo del modal */
+#cart-modal {
     position: fixed;
-    z-index: 11;
     top: 0;
     left: 0;
-    width: 100%; /* Cubrir toda la pantalla */
-    height: 100%; /* Cubrir toda la pantalla */
-}
+    right: 0; /* El modal está visible por defecto */
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    z-index: 1000;
+    display: none; /* Inicialmente oculto */
+    justify-content: flex-end; /* Alinea el modal al final (derecha) */
+    align-items: center; /* Centra el modal verticalmente */
+  }
 
-.modal-backdrop {
+  /* Estilo del contenedor interior del modal */
+  .modal-inner {
+    width: 40%; /* El contenedor tendrá un 40% del ancho */
+    height: 100%;
+    background-color: white;
+    padding: 1rem;
+    position: relative;
+    overflow-y: auto; /* Permite desplazarse si el contenido es largo */
+    transform: translateX(100%); /* Inicialmente fuera de la pantalla */
+    transition: transform 0.3s ease; /* Animación para deslizarse desde la derecha */
+  }
+
+  /* Cuando el modal está abierto */
+  #cart-modal.open {
+    display: flex; /* Muestra el modal */
+  }
+
+  #cart-modal.open .modal-inner {
+    transform: translateX(0); /* Mueve el modal a la vista */
+  }
+
+  /* Estilo de la parte trasera del modal (fondo oscuro) */
+  .modal-backdrop {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.288); /* Fondo semitransparente */
-    z-index: 11; /* Asegurarse de que quede detrás del contenido */
-}
+    background-color: rgba(0, 0, 0, 0); /* Fondo del backdrop */
+    z-index: -1;
+  }
 
-.modal-content {
-    position: absolute;
-    top: 0;
-    right: 0; /* Empieza en el lado derecho */
-    width: 40%; /* Ancho del modal */
-    height: 100%; /* Altura del modal */
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    box-sizing: border-box; /* Incluir padding en el ancho/alto */
-    z-index: 12; /* Asegurarse de que quede encima del fondo */
-    animation: slideIn 0.3s ease-out; /* Animación de deslizamiento */
-}
-
-/* Animación para un deslizamiento suave desde la derecha */
-@keyframes slideIn {
-    from {
-        transform: translateX(100%); /* Empieza fuera de la pantalla */
-    }
-    to {
-        transform: translateX(0); /* Entra en su posición */
-    }
-}
-
-
-
-/* Estilo para el botón de eliminar */
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #6d6c6c;
+  /* Botón de cerrar */
+  .close-btn {
+    font-size: 30px;
+    color: #333;
     cursor: pointer;
-}
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
 
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-    text-decoration: none;
+  /* Notificación de productos en el carrito */
+  .cart-notification.hidden {
+    display: none;
+  }
+
+  .cart-notification.visible {
+    display: block;
+  }
+
+  /* Estilo general para el contenedor de cada item */
+.modal-content{
+    padding-top: 2rem;
 }
+.cart-item-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .cart-item-img img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px; /* Separación entre la imagen y los detalles */
+  }
+
+  .cart-item-details {
+    flex-grow: 1; /* Para que los detalles ocupen el espacio restante */
+  }
+
+  .cart-item-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    padding-bottom: 5px;
+  }
+
+  .cart-item-total {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e74c3c; /* Color rojo para resaltar el total */
+  }
+
+  .cart-item-total span {
+    font-size: 20px;
+    color: #2ecc71; /* Verde para el precio total */
+  }
+
+  .cart-item-details p {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0;
+  }
+
+  /* Estilo para la notificación */
+.add-to-cart-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 128, 0, 0.8); /* Verde para indicar éxito */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: none; /* Inicialmente escondido */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  /* Muestra la notificación */
+  .add-to-cart-notification.show {
+    display: block;
+    opacity: 1;
+  }
+

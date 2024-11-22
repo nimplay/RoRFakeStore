@@ -1,37 +1,44 @@
 <div id="<%= dom_id product %>">
   <p>
-    <strong>Src:</strong>
-    <%= product.src %>
-  </p>
-
-  <p>
-    <strong>Alt:</strong>
-    <%= product.alt %>
-  </p>
-
-  <p>
-    <strong>Name:</strong>
+    <strong>Producto Principal:</strong>
     <%= product.name %>
   </p>
 
   <p>
-    <strong>Description:</strong>
+    <strong>Descripción Principal:</strong>
     <%= product.description %>
   </p>
 
   <p>
-    <strong>Price:</strong>
-    <%= product.price %>
-  </p>
-
-  <p>
-    <strong>Currency:</strong>
+    <strong>Moneda:</strong>
     <%= product.currency %>
   </p>
 
-  <p>
-    <strong>Max:</strong>
-    <%= product.max %>
-  </p>
-
+  <% if product.subcategory.present? %>
+    <p><strong>Subcategorías:</strong></p>
+    <ul>
+      <% product.subcategory.each do |subcategory| %>
+        <li>
+          <p>
+            <strong>Nombre:</strong>
+            <%= subcategory['name'] %>
+          </p>
+          <p>
+            <strong>Descripción:</strong>
+            <%= subcategory['description'] %>
+          </p>
+          <p>
+            <strong>Precio:</strong>
+            <%= subcategory['price'] %>
+          </p>
+          <p>
+            <strong>Imagen:</strong>
+            <%= image_tag subcategory['src'], alt: subcategory['alt'], width: 100 if subcategory['src'].present? %>
+          </p>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No hay subcategorías disponibles para este producto.</p>
+  <% end %>
 </div>
