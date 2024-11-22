@@ -1,3 +1,7 @@
 <h1>¡Gracias por tu compra!</h1>
 <p>Tu pago ha sido procesado exitosamente. Pronto recibirás un correo de confirmación.</p>
 <a href="<%= store_path %>">Volver a la tienda</a>
+<script type="text/javascript">
+  // Limpiar el carrito del localStorage
+  localStorage.removeItem('cart');
+</script>

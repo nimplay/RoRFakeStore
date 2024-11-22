@@ -27,7 +27,6 @@
   <div id="store-items" class="store-container-list">
     <% @products.each_with_index do |product, index| %>
       <div class='store-container-img'>
-        <!-- Imagen del producto -->
         <img src="<%= product['subcategory'][0]['src'] %>" alt="<%= product['subcategory'][0]['alt'] %>" class="store-img" id="product-image-<%= index %>" />
 
         <div class='store-container-description'>
@@ -70,13 +69,11 @@
     <% end %>
   </div>
 
-  <!-- Notificación de producto añadido al carrito -->
   <div id="add-to-cart-notification" class="add-to-cart-notification hidden">
     Producto añadido al carrito
   </div>
 </section>
 
-<!-- Modal de Carrito de Compras -->
 <div id="cart-modal" class="modal">
   <div class="modal-inner">
     <div class="modal-backdrop" onclick="closeModal()"></div>
@@ -86,11 +83,10 @@
       <div id="cart-items">
         <p>Tu carrito está vacío.</p>
       </div>
-      <!-- Nuevo div para el total -->
       <div id="cart-total">
-        <h3>Total: <span id="total-price">Aqui va el total</span></h3>
+        <h3>Total: <span id="total-price"></span></h3>
       </div>
-      <%=link_to "Checkout", paypal_checkouts_path, method: :post %>
+      <button onclick="processPayment()">Pagar con PayPal</button>
     </div>
   </div>
 </div>

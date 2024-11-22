@@ -2,7 +2,11 @@ class Paypal::CheckoutsController < ApplicationController
   include Paypal::SDK::REST
 
   def create
-    payment = Payment.new({
+     # frontend data
+     cart_total = params[:total]
+     cart_items = params[:items]
+
+     payment = Payment.new({
       intent: 'sale',
       payer: {
         payment_method: 'paypal'
@@ -14,12 +18,20 @@ class Paypal::CheckoutsController < ApplicationController
       transactions: [
         {
           amount: {
-            total: current_cart.total,
+            total: cart_total.to_s,
             currency: 'USD'
           },
           description: 'Compra de Retratos',
           item_list: {
-            items: current_cart.line_items.map(&:to_paypal)
+            items: cart_items.map { |item|
+              {
+                name: item[:name],
+                sku: item[:sku],
+                price: item[:price],
+                currency: item[:currency],
+                quantity: item[:quantity]
+              }
+            }
           }
         }
       ]
@@ -32,17 +44,22 @@ class Paypal::CheckoutsController < ApplicationController
     end
   end
 
-  
-  def thank_you
-    # Aquí podrías vaciar el carrito o mostrar un mensaje de agradecimiento.
-    # Renderiza una vista o redirige a otra página si es necesario.
-    render 'thank_you'
+  def complete
+    payment = Payment.find(params[:paymentId])
+    if payment.execute(payer_id: params[:PayerID])
+      session[:cart] = nil
+      redirect_to paypal_checkouts_thank_you_url, notice: "¡Pago procesado correctamente!"
+    else
+      redirect_to store_path, alert: "Hubo un problema al procesar el pago. Intenta nuevamente."
+    end
   end
 
-  # Acción para cancel
+
+  def thank_you
+    render 'thank_you'
+  end
   def cancel
-    # Redirige directamente a la tienda
-    redirect_to store_path, alert: "Has cancelado tu compra."
+     redirect_to store_path, notice: "Tu transacción ha sido cancelada."
   end
 end
 

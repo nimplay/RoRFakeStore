@@ -1,83 +1,76 @@
-// Array para almacenar los productos en el carrito
 let cart = [];
+let cartTotal = 0;
 
-// Recuperar el carrito desde localStorage al cargar la página
+// Read local storage
 function loadCartFromLocalStorage() {
   const storedCart = localStorage.getItem("cart");
   if (storedCart) {
-    cart = JSON.parse(storedCart); // Convertir el string del localStorage a un array de objetos
+    cart = JSON.parse(storedCart);
   }
 }
 
-// Función para actualizar el total cuando cambia la selección de subcategorías
+// Function to update total when subcategory selection changes
 function updateTotal(index) {
   const selectElement = document.getElementById(`subcategory-select-${index}`);
-  const selectedPrice = parseFloat(selectElement.value); // Convertir el precio a número
+  const selectedPrice = parseFloat(selectElement.value);
   const totalElement = document.getElementById(`local-total-${index}`);
-
   if (isNaN(selectedPrice)) {
     totalElement.innerText = "0";
     return;
   }
-
-  totalElement.innerText = selectedPrice.toFixed(2); // Mostrar con 2 decimales
+  totalElement.innerText = selectedPrice.toFixed(2);
 }
 
-// Función para actualizar la imagen del producto cuando se selecciona una subcategoría
+// Function to update the product image when a subcategory is selected
 function updateImage(index) {
   const selectElement = document.getElementById(`subcategory-select-${index}`);
-  const selectedSubIndex = selectElement.value; // Índice de la subcategoría seleccionada
+  const selectedSubIndex = selectElement.value;
   const imageElement = document.getElementById(`product-image-${index}`);
-
   if (selectedSubIndex === "") {
     return;
   }
-
   const subcategory = products[index].subcategory[selectedSubIndex];
-  imageElement.src = subcategory.src; // Actualiza la imagen con la nueva fuente
-  imageElement.alt = subcategory.alt; // Actualiza el texto alternativo de la imagen
+  imageElement.src = subcategory.src;
+  imageElement.alt = subcategory.alt;
 }
 
-// Función para actualizar el total y la descripción al seleccionar una subcategoría
+// Function to update total and description when selecting a subcategory
 function updateDetails(index) {
   const selectElement = document.getElementById(`subcategory-select-${index}`);
-  const selectedSubIndex = selectElement.value; // Índice de la subcategoría seleccionada
+  const selectedSubIndex = selectElement.value;
   const totalElement = document.getElementById(`local-total-${index}`);
-  const descriptionElement = document.getElementById(`subcategory-description-${index}`);
-
+  const descriptionElement = document.getElementById(
+    `subcategory-description-${index}`
+  );
   if (selectedSubIndex === "") {
     totalElement.innerText = "0";
     descriptionElement.innerText = " ";
     return;
   }
-
   const subcategory = products[index].subcategory[selectedSubIndex];
   totalElement.innerText = parseFloat(subcategory.price).toFixed(2);
-  descriptionElement.innerText = subcategory.description || "Sin descripción disponible.";
-
-  // Llamar a la función para actualizar la imagen
+  descriptionElement.innerText =
+    subcategory.description || "Sin descripción disponible.";
   updateImage(index);
-
-  // Habilitar el botón de agregar al carrito si se ha seleccionado una subcategoría
   document.getElementById(`add-button-${index}`).disabled = false;
 }
 
-// Función para abrir el modal del carrito
+// Function to open the cart modal
 function openCartModal() {
   const modal = document.getElementById("cart-modal");
   modal.classList.add("open");
 }
 
-// Función para cerrar el modal
+// Function to close the cart modall
 function closeModal() {
   const modal = document.getElementById("cart-modal");
   modal.classList.remove("open");
 }
 
-// Función para actualizar la notificación del carrito
+// Function to update the cart notification
 function updateCartNotification() {
   const notification = document.getElementById("cart-notification");
-  notification.textContent = cart.length; // Muestra el número de productos en el carrito
+  notification.textContent = cart.length;
   if (cart.length > 0) {
     notification.classList.remove("hidden");
   } else {
@@ -85,19 +78,17 @@ function updateCartNotification() {
   }
 }
 
-// Función para agregar productos al carrito
+// Add products to cart function
 function addToCart(index) {
   const product = products[index];
   const selectElement = document.getElementById(`subcategory-select-${index}`);
   const selectedSubcategoryIndex = selectElement.value;
-
   if (selectedSubcategoryIndex === "") {
     alert("Por favor selecciona una subcategoría.");
     return;
   }
-
   const subcategory = product["subcategory"][selectedSubcategoryIndex];
-
+  const sku = product["name"] + subcategory["name"] + subcategory["price"];
   const cartItem = {
     name: product["name"],
     subcategory: subcategory["name"],
@@ -105,53 +96,41 @@ function addToCart(index) {
     alt: subcategory["alt"],
     price: subcategory["price"],
     currency: product["currency"],
+    sku: sku,
+    quantity: 1,
   };
-
-  cart.push(cartItem); // Agregar el producto al carrito
-
-  // Guardar el carrito en el localStorage
+  cart.push(cartItem);
   localStorage.setItem("cart", JSON.stringify(cart));
-
-  updateCartNotification(); // Actualizar la notificación del carrito
-  updateCartItems(); // Mostrar los elementos del carrito en el modal
-
-  // Actualizar el total en el modal
+  updateCartNotification();
+  updateCartItems();
   updateTotalInModal();
-
-  // Mostrar la notificación de producto añadido al carrito
   showAddToCartNotification();
 }
 
-// Función para mostrar la notificación de producto añadido al carrito
+// Function to display notification of product added to cart
 function showAddToCartNotification() {
   const notification = document.getElementById("add-to-cart-notification");
   notification.classList.add("show");
 
-  // Ocultar la notificación después de 3 segundos
+  // Hide notification after 3 seconds
   setTimeout(() => {
     notification.classList.remove("show");
-  }, 3000); // 3 segundos
+  }, 3000);
 }
 
-// Función para eliminar un producto del carrito
+// Function to remove a product from the cart
 function removeItemFromCart(index) {
-  // Eliminar el producto del carrito usando el índice
   cart.splice(index, 1);
-
-  // Guardar el carrito actualizado en el localStorage
   localStorage.setItem("cart", JSON.stringify(cart));
-
-  // Actualizar la vista del carrito y el total después de eliminar el producto
   updateCartItems();
   updateTotalInModal();
   updateCartNotification();
 }
 
-// Función para actualizar los elementos dentro del carrito en el modal
+// Function to update the items inside the cart in the modal
 function updateCartItems() {
   const cartItemsContainer = document.getElementById("cart-items");
-  cartItemsContainer.innerHTML = ""; // Limpiar el contenido actual
-
+  cartItemsContainer.innerHTML = "";
   if (cart.length === 0) {
     cartItemsContainer.innerHTML = "<p>Tu carrito está vacío.</p>";
   } else {
@@ -175,28 +154,53 @@ function updateCartItems() {
   }
 }
 
-// Función para actualizar el total del carrito en el modal
+// Function to update the cart total in the modal
 function updateTotalInModal() {
   let total = 0;
-  const currency = '$';
-
-  // Sumar el precio de todos los productos en el carrito
-  cart.forEach(item => {
-    total += parseFloat(item.price); // Sumar el precio del producto
+  const currency = "$";
+  cart.forEach((item) => {
+    total += parseFloat(item.price);
   });
-
-  // Actualizar el contenido del elemento con el total
   const totalPriceElement = document.getElementById("total-price");
-  totalPriceElement.textContent = `${total.toFixed(2)} ${currency}`; // Añadir el símbolo de la moneda al total
+  totalPriceElement.textContent = `${total.toFixed(2)} ${currency}`;
+  cartTotal = total;
 }
 
-// Función de ejemplo para el pago
+// Payment proccess
 function processPayment() {
-  alert("Procesando pago...");
+  const cartItems = cart.map((item) => ({
+    name: item.name,
+    sku: item.sku,
+    price: item.price,
+    currency: item.currency,
+    quantity: item.quantity,
+  }));
+  fetch("/paypal/create", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      total: cartTotal,
+      items: cartItems,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.payment_url) {
+        window.location.href = data.payment_url;
+      } else {
+        alert("Error al procesar el pago");
+      }
+    })
+    .catch((error) => {
+      console.error("Error en el pago:", error);
+      alert("Error al procesar el pago");
+    });
 }
 
-// Llamar a la función para cargar el carrito desde localStorage cuando se cargue la página
-window.onload = function() {
+// Call the function to load the cart from localStorage when the page loads
+window.onload = function () {
   loadCartFromLocalStorage();
   updateCartNotification();
   updateCartItems();
