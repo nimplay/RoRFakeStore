@@ -28,5 +28,5 @@ end
 
 gem "standard", ">= 1.35.1"
 gem "ostruct"
-gem 'sassc-rails'
-gem 'paypal-sdk-rest', '~> 1.7', '>= 1.7.6'
+gem "sassc-rails"
+gem "paypal-sdk-rest", "~> 1.7", ">= 1.7.6"

@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :show, :edit, :update, :destroy ]
 
   # GET /products
   def index
@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to @product, notice: 'El producto fue creado con éxito.'
+      redirect_to @product, notice: "El producto fue creado con éxito."
     else
       render :new, status: :unprocessable_entity
     end
@@ -37,7 +37,7 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to @product, notice: 'El producto fue actualizado con éxito.'
+      redirect_to @product, notice: "El producto fue actualizado con éxito."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -46,7 +46,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1
   def destroy
     @product.destroy
-    redirect_to products_url, notice: 'El producto fue eliminado con éxito.'
+    redirect_to products_url, notice: "El producto fue eliminado con éxito."
   end
 
   private
@@ -61,12 +61,12 @@ class ProductsController < ApplicationController
       :name,
       :description,
       :currency,
-      subcategory: [:id, :name, :description, :price, :src, :alt]
+      subcategory: [ :id, :name, :description, :price, :src, :alt ]
     ).tap do |whitelisted|
       # Si no hay subcategorías en los parámetros, preserva las subcategorías anteriores
       if params[:product][:subcategory].blank?
         # Mantén las subcategorías previas si existen, o asigna un array vacío
-        whitelisted[:subcategory] = @product.subcategory.presence || [{}]
+        whitelisted[:subcategory] = @product.subcategory.presence || [ {} ]
       else
         # Si hay subcategorías nuevas, asegúrate de que todas tengan la estructura esperada
         whitelisted[:subcategory].each do |subcategory|

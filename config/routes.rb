@@ -12,12 +12,12 @@ Rails.application.routes.draw do
   # Portfolio Route
   get "/portfolio", to: "portfolio#portfolio"
 
-   # Bio Route
+  # Bio Route
   get "/bio", to: "bio#bio"
 
-   # paypal Route
+  # paypal Route
   namespace :paypal do
-    resources :checkouts, only: [:create] do
+    resources :checkouts, only: [ :create ] do
       collection do
         get :complete
       end

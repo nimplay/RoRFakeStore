@@ -7,9 +7,9 @@ class Paypal::CheckoutsController < ApplicationController
      cart_items = params[:items]
 
      payment = Payment.new({
-      intent: 'sale',
+      intent: "sale",
       payer: {
-        payment_method: 'paypal'
+        payment_method: "paypal"
       },
       redirect_urls: {
         return_url: paypal_checkouts_thank_you_url,
@@ -19,9 +19,9 @@ class Paypal::CheckoutsController < ApplicationController
         {
           amount: {
             total: cart_total.to_s,
-            currency: 'USD'
+            currency: "USD"
           },
-          description: 'Compra de Retratos',
+          description: "Compra de Retratos",
           item_list: {
             items: cart_items.map { |item|
               {
@@ -38,7 +38,7 @@ class Paypal::CheckoutsController < ApplicationController
     })
 
     if payment.create
-      redirect_to payment.links.find { |v| v.rel == 'approval_url' }.href
+      redirect_to payment.links.find { |v| v.rel == "approval_url" }.href
     else
       redirect_to store_path, alert: "Error al procesar el pago."
     end
@@ -56,10 +56,9 @@ class Paypal::CheckoutsController < ApplicationController
 
 
   def thank_you
-    render 'thank_you'
+    render "thank_you"
   end
   def cancel
      redirect_to store_path, notice: "Tu transacción ha sido cancelada."
   end
 end
-
