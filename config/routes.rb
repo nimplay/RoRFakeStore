@@ -15,6 +15,9 @@ Rails.application.routes.draw do
   # Bio Route
   get "/bio", to: "bio#bio"
 
+  # render
+  get "/renders", to: "render#index", as: "renders"
+
   # paypal Route
   namespace :paypal do
     resources :checkouts, only: [ :create ] do
