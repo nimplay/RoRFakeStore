@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :products
   # Home Route
   root to: "home#home"
 
@@ -11,6 +12,20 @@ Rails.application.routes.draw do
   # Portfolio Route
   get "/portfolio", to: "portfolio#portfolio"
 
-   # Bio Route
+  # Bio Route
   get "/bio", to: "bio#bio"
+
+  # render
+  get "/renders", to: "render#index", as: "renders"
+
+  # paypal Route
+  namespace :paypal do
+    resources :checkouts, only: [ :create ] do
+      collection do
+        get :complete
+        get :thank_you
+        get :cancel
+      end
+    end
+  end
 end

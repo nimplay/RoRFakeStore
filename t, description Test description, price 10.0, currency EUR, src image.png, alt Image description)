@@ -1,0 +1,21 @@
+=> 
+[[32m#<Product:0x00007f8dbe868b18[0m
+  id: [34m[1m1[0m,
+  name: [31m[1m"[0m[31mRetratos[0m[31m[1m"[0m,
+  description: [31m[1m"[0m[31mRetratos ilustrados[0m[31m[1m"[0m,
+  price: [35m[1m10.0[0m,
+  src: [31m[1m"[0m[31mhttps://senora-garabato-images.s3.us-east-2.amazon...[0m[31m[1m"[0m,
+  alt: [31m[1m"[0m[31mSpider[0m[31m[1m"[0m,
+  currency: [31m[1m"[0m[31m€[0m[31m[1m"[0m,
+  created_at: [31m[1m"[0m[31m2024-11-16 00:14:29.802058000 +0000[0m[31m[1m"[0m,
+  updated_at: [31m[1m"[0m[31m2024-11-16 00:14:29.802058000 +0000[0m[31m[1m"[0m[32m>[0m,
+ [32m#<Product:0x00007f8dbf4d9d98[0m
+  id: [34m[1m3[0m,
+  name: [31m[1m"[0m[31mProducto test[0m[31m[1m"[0m,
+  description: [31m[1m"[0m[31mEsta es una prueba de varios productos[0m[31m[1m"[0m,
+  price: [35m[1m50.5[0m,
+  src: [31m[1m"[0m[31mhttps://senora-garabato-images.s3.us-east-2.amazon...[0m[31m[1m"[0m,
+  alt: [31m[1m"[0m[31mSpider[0m[31m[1m"[0m,
+  currency: [31m[1m"[0m[31m$[0m[31m[1m"[0m,
+  created_at: [31m[1m"[0m[31m2024-11-16 00:51:50.148767000 +0000[0m[31m[1m"[0m,
+  updated_at: [31m[1m"[0m[31m2024-11-16 00:51:50.148767000 +0000[0m[31m[1m"[0m[32m>[0m]

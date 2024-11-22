@@ -1,0 +1,47 @@
+<%= javascript_include_tag "subcategories" %>
+<%= stylesheet_link_tag 'formstyle', media: 'all' %>
+
+<%= form_with(model: @product, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :currency %>
+    <%= form.text_field :currency %>
+  </div>
+
+  <div id="subcategories">
+  <h3>Subcategories</h3>
+  <% (@product.subcategory || []).each_with_index do |subcat, index| %>
+    <div class="subcategory_fields" data-index="<%= index %>">
+      <%= label_tag "product[subcategory][#{index}][name]", "Subcategory Name" %>
+      <%= text_field_tag "product[subcategory][#{index}][name]", subcat[:name], placeholder: "Subcategory Name" %>
+
+      <%= label_tag "product[subcategory][#{index}][description]", "Description" %>
+      <%= text_area_tag "product[subcategory][#{index}][description]", subcat[:description], placeholder: "Description" %>
+
+      <%= label_tag "product[subcategory][#{index}][price]", "Price" %>
+      <%= number_field_tag "product[subcategory][#{index}][price]", subcat[:price], placeholder: "Price" %>
+
+      <%= label_tag "product[subcategory][#{index}][src]", "Image Source" %>
+      <%= text_field_tag "product[subcategory][#{index}][src]", subcat[:src], placeholder: "Image Source" %>
+
+      <%= label_tag "product[subcategory][#{index}][alt]", "Image Alt Text" %>
+      <%= text_field_tag "product[subcategory][#{index}][alt]", subcat[:alt], placeholder: "Image Alt Text" %>
+
+      <button type="button" class="remove_subcategory">Remove</button>
+    </div>
+  <% end %>
+</div>
+<button type="button" id="add_subcategory">Add Subcategory</button>
+
+  <%= form.submit %>
+<% end %>
+

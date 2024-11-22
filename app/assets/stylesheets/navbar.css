@@ -3,8 +3,8 @@
   display:flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
   margin-bottom: 2rem;
+  padding: 1rem 0;
   border-bottom: 1px solid rgb(219, 217, 217);
 }
 
@@ -29,7 +29,6 @@
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-  margin-top:10px;
 }
 
 .nav-container-items {

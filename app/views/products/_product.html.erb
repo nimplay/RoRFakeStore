@@ -1,0 +1,36 @@
+<div id="<%= dom_id product %>">
+  <p>
+    <strong>Name:</strong>
+    <%= product.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= product.description %>
+  </p>
+
+  <p>
+    <strong>Currency:</strong>
+    <%= product.currency %>
+  </p>
+
+  <div>
+    <strong>Subcategories:</strong>
+    <% if product.subcategory.present? %>
+      <ul>
+        <% product.subcategory.each do |key, subcat| %>
+          <li>
+            <strong>Name:</strong> <%= subcat['name'] %><br>
+            <strong>Description:</strong> <%= subcat['description'] %><br>
+            <strong>Price:</strong> <%= subcat['price'] %> <%= product.currency %><br>
+            <% if subcat['src'].present? %>
+              <img src="<%= subcat['src'] %>" alt="<%= subcat['alt'] %>" style="max-width: 100px;">
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No subcategories available.</p>
+    <% end %>
+  </div>
+</div>
