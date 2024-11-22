@@ -1,147 +1,47 @@
-<%= form_with(model: product) do |form| %>
-  <% if product.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-      <ul>
-        <% product.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= javascript_include_tag "subcategories" %>
+<%= stylesheet_link_tag 'formstyle', media: 'all' %>
 
-  <div>
-    <%= form.label :name, "Nombre Principal", style: "display: block" %>
+<%= form_with(model: @product, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
 
-  <div>
-    <%= form.label :description, "Descripción Principal", style: "display: block" %>
-    <%= form.text_field :description %>
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
   </div>
 
-  <div>
-    <%= form.label :currency, "Moneda", style: "display: block" %>
+  <div class="field">
+    <%= form.label :currency %>
     <%= form.text_field :currency %>
   </div>
 
   <div id="subcategories">
-    <h3>Subcategorías</h3>
-    <% (product.subcategory || [{}]).each_with_index do |subcategory, index| %>
-      <fieldset style="margin-bottom: 15px; border: 1px solid #ccc; padding: 10px;">
-        <div>
-          <%= form.label "subcategories[#{index}][name]", "Nombre", style: "display: block" %>
-          <%= form.text_field "product[subcategories][][name]", value: subcategory['name'] %>
-        </div>
+  <h3>Subcategories</h3>
+  <% (@product.subcategory || []).each_with_index do |subcat, index| %>
+    <div class="subcategory_fields" data-index="<%= index %>">
+      <%= label_tag "product[subcategory][#{index}][name]", "Subcategory Name" %>
+      <%= text_field_tag "product[subcategory][#{index}][name]", subcat[:name], placeholder: "Subcategory Name" %>
 
-        <div>
-          <%= form.label "subcategories[#{index}][description]", "Descripción", style: "display: block" %>
-          <%= form.text_field "product[subcategories][][description]", value: subcategory['description'] %>
-        </div>
+      <%= label_tag "product[subcategory][#{index}][description]", "Description" %>
+      <%= text_area_tag "product[subcategory][#{index}][description]", subcat[:description], placeholder: "Description" %>
 
-        <div>
-          <%= form.label "subcategories[#{index}][price]", "Precio", style: "display: block" %>
-          <%= form.number_field "product[subcategories][][price]", value: subcategory['price'], step: 0.01 %>
-        </div>
+      <%= label_tag "product[subcategory][#{index}][price]", "Price" %>
+      <%= number_field_tag "product[subcategory][#{index}][price]", subcat[:price], placeholder: "Price" %>
 
-        <div>
-          <%= form.label "subcategories[#{index}][src]", "URL de la Imagen", style: "display: block" %>
-          <%= form.text_field "product[subcategories][][src]", value: subcategory['src'] %>
-        </div>
+      <%= label_tag "product[subcategory][#{index}][src]", "Image Source" %>
+      <%= text_field_tag "product[subcategory][#{index}][src]", subcat[:src], placeholder: "Image Source" %>
 
-        <div>
-          <%= form.label "subcategories[#{index}][alt]", "Texto Alternativo de la Imagen", style: "display: block" %>
-          <%= form.text_field "product[subcategories][][alt]", value: subcategory['alt'] %>
-        </div>
+      <%= label_tag "product[subcategory][#{index}][alt]", "Image Alt Text" %>
+      <%= text_field_tag "product[subcategory][#{index}][alt]", subcat[:alt], placeholder: "Image Alt Text" %>
 
-        <div>
-          <button type="button" class="remove-subcategory">Eliminar Subcategoría</button>
-        </div>
-      </fieldset>
-    <% end %>
-
-    <div>
-      <button type="button" id="add-subcategory">Agregar Subcategoría</button>
+      <button type="button" class="remove_subcategory">Remove</button>
     </div>
-  </div>
+  <% end %>
+</div>
+<button type="button" id="add_subcategory">Add Subcategory</button>
 
-  <div>
-    <%= form.submit "Guardar Producto" %>
-  </div>
+  <%= form.submit %>
 <% end %>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const addSubcategoryButton = document.getElementById("add-subcategory");
-  const subcategoriesContainer = document.getElementById("subcategories");
-
-  // Comprobamos si ya existen subcategorías
-  if (subcategoriesContainer.querySelectorAll("fieldset").length === 0) {
-    // Si no existen subcategorías, crea un campo vacío inicial
-    addEmptySubcategory();
-  }
-
-  // Agregar subcategoría
-  addSubcategoryButton.addEventListener("click", function() {
-    const fieldsets = subcategoriesContainer.querySelectorAll("fieldset");
-
-    // Solo se clona si existen fieldsets
-    if (fieldsets.length > 0) {
-      const lastIndex = fieldsets.length - 1;
-      const newIndex = lastIndex + 1;
-
-      const newFieldset = fieldsets[lastIndex].cloneNode(true);
-      newFieldset.querySelectorAll("input").forEach(input => {
-        const name = input.getAttribute("name").replace(/\[\d+\]/, `[${newIndex}]`);
-        input.setAttribute("name", name);
-        input.value = ""; // Limpiar el valor del nuevo campo
-      });
-
-      subcategoriesContainer.insertBefore(newFieldset, addSubcategoryButton.parentNode);
-    }
-  });
-
-  // Eliminar subcategoría
-  subcategoriesContainer.addEventListener("click", function(event) {
-    if (event.target.classList.contains("remove-subcategory")) {
-      const fieldset = event.target.closest("fieldset");
-      fieldset.remove();
-    }
-  });
-
-  // Función para agregar una subcategoría vacía inicial
-  function addEmptySubcategory() {
-    const newFieldset = document.createElement('fieldset');
-    newFieldset.style.marginBottom = '15px';
-    newFieldset.style.border = '1px solid #ccc';
-    newFieldset.style.padding = '10px';
-
-    newFieldset.innerHTML = `
-      <div>
-        <label for="product[subcategories][0][name]" style="display: block">Nombre</label>
-        <input type="text" name="product[subcategories][][name]" id="product[subcategories][0][name]" />
-      </div>
-      <div>
-        <label for="product[subcategories][0][description]" style="display: block">Descripción</label>
-        <input type="text" name="product[subcategories][][description]" id="product[subcategories][0][description]" />
-      </div>
-      <div>
-        <label for="product[subcategories][0][price]" style="display: block">Precio</label>
-        <input type="number" name="product[subcategories][][price]" id="product[subcategories][0][price]" step="0.01" />
-      </div>
-      <div>
-        <label for="product[subcategories][0][src]" style="display: block">URL de la Imagen</label>
-        <input type="text" name="product[subcategories][][src]" id="product[subcategories][0][src]" />
-      </div>
-      <div>
-        <label for="product[subcategories][0][alt]" style="display: block">Texto Alternativo de la Imagen</label>
-        <input type="text" name="product[subcategories][][alt]" id="product[subcategories][0][alt]" />
-      </div>
-      <div>
-        <button type="button" class="remove-subcategory">Eliminar Subcategoría</button>
-      </div>
-    `;
-    subcategoriesContainer.insertBefore(newFieldset, addSubcategoryButton.parentNode);
-  }
-});
-</script>

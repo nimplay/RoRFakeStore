@@ -1,8 +1,6 @@
 class StoreController < ApplicationController
   def store
-    @products = Product.all.map do |product|
-      product.attributes.merge(subcategory: JSON.parse(product.subcategory.to_json))
-    end
+    @products = Product.all
   end
   def process_payment
     total = params[:total]

@@ -1,33 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: "Retrato"
-  description: "Retratos ilustrados"
-  currency: "$"
-  subcategory:
-    - name: "1 Personaje"
-      description: "Solo una persona"
-      price: 40.0  
-      src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/BotanicSpiderma.JPG"
-      alt: "imagen 1"
-    - name: "2 Personajes"
-      description: "Dos personas"
-      price: 70.0  
-      src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7316.JPG"
-      alt: "imagen 2"
+  name: MyString
+  description: MyText
+  currency: MyString
+  subcategory: 
 
 two:
-  name: "Retrato"
-  description: "Retratos ilustrados"
-  currency: "$"
-  subcategory:
-    - name: "1 Personaje"
-      description: "Solo una persona"
-      price: 40.0  
-      src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/BotanicSpiderma.JPG"
-      alt: "imagen 1"
-    - name: "2 Personajes"
-      description: "Dos personas"
-      price: 70.0  
-      src: "https://senora-garabato-images.s3.us-east-2.amazonaws.com/images/Portfolio/IMG_7316.JPG"
-      alt: "imagen 2"
+  name: MyString
+  description: MyText
+  currency: MyString
+  subcategory: 

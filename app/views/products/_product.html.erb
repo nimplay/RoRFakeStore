@@ -1,44 +1,36 @@
 <div id="<%= dom_id product %>">
   <p>
-    <strong>Producto Principal:</strong>
+    <strong>Name:</strong>
     <%= product.name %>
   </p>
 
   <p>
-    <strong>Descripción Principal:</strong>
+    <strong>Description:</strong>
     <%= product.description %>
   </p>
 
   <p>
-    <strong>Moneda:</strong>
+    <strong>Currency:</strong>
     <%= product.currency %>
   </p>
 
-  <% if product.subcategory.present? %>
-    <p><strong>Subcategorías:</strong></p>
-    <ul>
-      <% product.subcategory.each do |subcategory| %>
-        <li>
-          <p>
-            <strong>Nombre:</strong>
-            <%= subcategory['name'] %>
-          </p>
-          <p>
-            <strong>Descripción:</strong>
-            <%= subcategory['description'] %>
-          </p>
-          <p>
-            <strong>Precio:</strong>
-            <%= subcategory['price'] %>
-          </p>
-          <p>
-            <strong>Imagen:</strong>
-            <%= image_tag subcategory['src'], alt: subcategory['alt'], width: 100 if subcategory['src'].present? %>
-          </p>
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>No hay subcategorías disponibles para este producto.</p>
-  <% end %>
+  <div>
+    <strong>Subcategories:</strong>
+    <% if product.subcategory.present? %>
+      <ul>
+        <% product.subcategory.each do |key, subcat| %>
+          <li>
+            <strong>Name:</strong> <%= subcat['name'] %><br>
+            <strong>Description:</strong> <%= subcat['description'] %><br>
+            <strong>Price:</strong> <%= subcat['price'] %> <%= product.currency %><br>
+            <% if subcat['src'].present? %>
+              <img src="<%= subcat['src'] %>" alt="<%= subcat['alt'] %>" style="max-width: 100px;">
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No subcategories available.</p>
+    <% end %>
+  </div>
 </div>
