@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     resources :checkouts, only: [ :create ] do
       collection do
         get :complete
+        get :thank_you
+        get :cancel
       end
     end
   end

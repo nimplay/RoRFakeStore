@@ -1,4 +1,5 @@
 class Paypal::CheckoutsController < ApplicationController
+  include Rails.application.routes.url_helpers
   include PayPal::SDK::REST
 
   def create
@@ -12,8 +13,8 @@ class Paypal::CheckoutsController < ApplicationController
         payment_method: "paypal"
       },
       redirect_urls: {
-        return_url: paypal_checkouts_thank_you_url,
-        cancel_url: paypal_checkouts_cancel_url
+        return_url: thank_you_paypal_checkouts_url,
+        cancel_url: cancel_paypal_checkouts_url
       },
       transactions: [
         {

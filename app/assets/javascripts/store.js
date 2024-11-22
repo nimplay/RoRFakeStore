@@ -168,17 +168,20 @@ function updateTotalInModal() {
 
 // Payment proccess
 function processPayment() {
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const cartItems = cart.map((item) => ({
     name: item.name,
     sku: item.sku,
     price: item.price,
-    currency: item.currency,
+    currency: 'USD',
     quantity: item.quantity,
   }));
-  fetch("/paypal/create", {
+
+  fetch("/paypal/checkouts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-CSRF-Token": csrfToken, 
     },
     body: JSON.stringify({
       total: cartTotal,
