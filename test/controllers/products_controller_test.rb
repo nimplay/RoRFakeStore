@@ -6,7 +6,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
-    get products_url
+    get products_url  # Aquí se usa la ruta correcta de los productos
     assert_response :success
   end
 
