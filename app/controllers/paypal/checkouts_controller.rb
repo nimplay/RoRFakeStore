@@ -1,5 +1,5 @@
 class Paypal::CheckoutsController < ApplicationController
-  include Paypal::SDK::REST
+  include PayPal::SDK::REST
 
   def create
      # frontend data
