@@ -4,7 +4,7 @@ ARG RUBY_VERSION=3.3.5
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 WORKDIR /rails
 RUN apt-get update -qq && \
-    apt-get install install -y build-essential libvipds bash bash-completion libffi-dev tzdata postgresql nodejs npm yarm &&\
+    apt-get install -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 ENV RAILS_ENV="production" \
@@ -13,7 +13,18 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development"
 FROM base AS build
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev node-gyp pkg-config python-is-python3 && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    libvips \
+    bash \
+    bash-completion \
+    libffi-dev \
+    tzdata \
+    postgresql \
+    libpq-dev \
+    nodejs \
+    npm && \
+    npm install -g yarn && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 ARG NODE_VERSION=20.11.1
