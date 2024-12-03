@@ -28,7 +28,7 @@ end
 
 gem "standard", ">= 1.35.1"
 gem "ostruct"
-gem "sassc-rails"
+# gem "sassc-rails"
 gem "paypal-sdk-rest", "~> 1.7", ">= 1.7.6"
 
 gem "ssl_certifier", "~> 0.1.5"

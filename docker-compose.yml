@@ -1,7 +1,8 @@
+version: '3'
 services:
   web:
     build: .
-    command: bundle exec rails s -b '0.0.0.0'
+    command: bundle exec rails s -b '0.0.0.0'  # Usar el comando aquí
     ports:
       - "3000:3000"
     depends_on:
@@ -16,15 +17,15 @@ services:
     networks:
       - home
   db:
-      image: postgres:latest
-      environment:
-        POSTGRES_DB: ${POSTGRES_DB}
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      networks:
-        - home
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - home
 
   demo_web:
     build: .
@@ -37,11 +38,12 @@ services:
       - db
     networks:
       - home
+
 volumes:
   postgres_data: {}
   app-storage: {}
+
 networks:
   home:
     external: true
     driver: bridge
-
