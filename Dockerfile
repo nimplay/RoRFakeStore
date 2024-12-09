@@ -1,5 +1,5 @@
 # Usamos el archivo de Ruby base
-FROM docker.io/library/ruby:3.3.5-slim AS base
+FROM ruby:3.3.5 AS base
 
 WORKDIR /rails
 
@@ -10,6 +10,8 @@ RUN apt-get update -qq && \
     build-essential \
     libvips \
     libffi-dev \
+    libssl-dev \
+    zlib1g-dev \
     postgresql-client \
     postgresql \
     libpq-dev \
@@ -18,7 +20,7 @@ RUN apt-get update -qq && \
     npm install -g yarn && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# Instalamos el paquete node y Yarn
+# Instalamos Node.js usando la versión especificada
 ARG NODE_VERSION=20.11.1
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
@@ -28,7 +30,10 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
 
 # Copia el Gemfile y Gemfile.lock para instalar las dependencias de Ruby
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+
+# Configuramos Bundler y luego instalamos las dependencias
+RUN bundle config set deployment 'true' && bundle config set path 'vendor/bundle' && \
+    bundle install --verbose
 
 # Copia el package.json y yarn.lock para instalar las dependencias de JavaScript
 COPY package.json yarn.lock ./
