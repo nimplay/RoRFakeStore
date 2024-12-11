@@ -104,7 +104,7 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -t my-rails-app:${{ github.sha }} .
-          docker tag my-rails-app:${{ github.sha }} mydockerhubusername/my-rails-app:latest
+          docker tag my-rails-app:${{ github.sha }} nimplay/my-rails-app:latest
 
       - name: Push Docker Image
         run: |
