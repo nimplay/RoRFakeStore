@@ -31,6 +31,12 @@ RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz
 # Copia el Gemfile y Gemfile.lock para instalar las dependencias de Ruby
 COPY Gemfile Gemfile.lock ./
 
+# Copia el script de inicio al contenedor
+COPY entrypoint.sh /usr/local/bin/
+
+# Asegúrate de que el script sea ejecutable
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Configuramos Bundler y luego instalamos las dependencias
 RUN bundle config set deployment 'true' && bundle config set path 'vendor/bundle' && \
     bundle install --verbose
@@ -52,8 +58,12 @@ RUN groupadd --system --gid 1000 rails && \
 
 USER rails
 
+
 # Expone el puerto 3000 para la aplicación
 EXPOSE 3000
+
+# Configura el script como punto de entrada
+ENTRYPOINT ["entrypoint.sh"]
 
 # Inicia el servidor de Rails
 CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
