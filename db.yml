@@ -9,7 +9,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - home
+      - main
 
 networks:
   main:
