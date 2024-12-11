@@ -5,8 +5,6 @@ services:
     command: bundle exec rails s -b '0.0.0.0'  # Usar el comando aquí
     ports:
       - "3000:3000"
-    depends_on:
-      - db
     environment:
       - RAILS_ENV=test
     env_file: ".env"
@@ -15,17 +13,7 @@ services:
         - action: rebuild
           path: .
     networks:
-      - home
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - home
+      - main
 
   demo_web:
     build: .
@@ -34,16 +22,13 @@ services:
       - ./.env
     volumes:
       - app-storage:/rails/storage
-    depends_on:
-      - db
     networks:
-      - home
+      - main
 
 volumes:
-  postgres_data: {}
   app-storage: {}
 
 networks:
-  home:
+  main:
     external: true
     driver: bridge
