@@ -108,7 +108,7 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          docker push mydockerhubusername/my-rails-app:latest
+          docker push nimplay/my-rails-app:latest
 
       - name: Deploy to Lightsail
         env:
@@ -116,7 +116,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<lightsail-ip> << 'EOF'
             cd /path/to/your/app
-            docker pull mydockerhubusername/my-rails-app:latest
+            docker pull nimplay/my-rails-app:latest
             docker-compose down
             docker-compose up -d
           EOF
