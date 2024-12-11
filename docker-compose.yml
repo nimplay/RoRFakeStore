@@ -1,5 +1,6 @@
 services:
   web:
+    container_name: 'senoragarabato'
     build: .
     command: bundle exec rails s -b '0.0.0.0'  # Usar el comando aquí
     ports:
