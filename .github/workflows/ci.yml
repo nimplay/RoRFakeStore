@@ -63,7 +63,7 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y \
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libjemalloc2 libvips postgresql-client
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -123,14 +123,12 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
 
-          scp -o StrictHostKeyChecking=no -i ssh_key.pem docker-compose.yml ubuntu@18.119.119.185:/RoRFakeStore
-
+          
           ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@18.119.119.185 << 'EOF'
             cd /RoRFakeStore
             docker pull nimplay/my-rails-app:latest
-            docker compose down
-            docker compose up -d
+            docker-compose down
+            docker-compose up -d
           EOF
 
           rm ssh_key.pem
-
