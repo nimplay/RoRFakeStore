@@ -79,10 +79,11 @@ jobs:
       - name: Dar permisos de ejecución a bin/rails
         run: chmod +x bin/rails
 
-      - name: Construct DATABASE_URL and run tests
-        run: |
-          export DATABASE_URL="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB"
-          bin/rails db:test:prepare test test:system
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:5432/$POSTGRES_DB
+        run: bin/rails db:test:prepare test test:system
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
