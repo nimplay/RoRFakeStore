@@ -123,7 +123,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
 
-          scp -i ssh_key.pem docker-compose.yml ubuntu@senoragarabato18.119.119.185:/RoRFakeStore
+          scp -i ssh_key.pem docker-compose.yml ubuntu@18.119.119.185:/RoRFakeStore
 
           ssh -i ssh_key.pem ubuntu@senoragarabato18.119.119.185 << 'EOF'
             cd /RoRFakeStore
@@ -131,5 +131,5 @@ jobs:
             docker compose down
             docker compose up -d
           EOF
-          
+
           rm ssh_key.pem
