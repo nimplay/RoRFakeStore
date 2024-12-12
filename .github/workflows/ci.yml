@@ -95,6 +95,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: List directory contents for debugging
+        run: ls -alh
+
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
@@ -110,20 +113,23 @@ jobs:
         run: |
           docker push nimplay/my-rails-app:latest
 
+      - name: Install docker-compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
       - name: Deploy to Lightsail
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
-
+          
+          ls -alh
 
           cd ./RoRFakeStore
           docker pull nimplay/my-rails-app:latest
           docker-compose down
           docker-compose up -d
 
-
           rm ssh_key.pem
-
-
