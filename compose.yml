@@ -2,28 +2,28 @@ services:
   web:
     container_name: 'senoragarabato'
     build: .
-    command: bundle exec rails s -b '0.0.0.0'  # Usar el comando aquí
+    command: bundle exec rails s -b '0.0.0.0'
     ports:
       - "3000:3000"
     environment:
-      - RAILS_ENV=test
+      - RAILS_ENV=production
     env_file: ".env"
-    develop:
-      watch:
-        - action: rebuild
-          path: .
     networks:
       - main
-
-  demo_web:
-    build: .
-    command: "./bin/rails server"
-    env_file:
-      - ./.env
     volumes:
       - app-storage:/rails/storage
+
+  demo_web:
+    container_name: 'demo_senoragarabato'
+    build: .
+    command: ./bin/rails server
+    ports:
+      - "3001:3000" 
+    env_file: ".env"
     networks:
       - main
+    volumes:
+      - app-storage:/rails/storage
 
 volumes:
   app-storage: {}

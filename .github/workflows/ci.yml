@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   scan_ruby:
@@ -19,14 +19,15 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Dar permisos de ejecución a bin/brakeman
+      - name: Grant execution permissions for bin/brakeman
         run: chmod +x bin/brakeman
 
-      - name: Scan for common Rails security vulnerabilities using static analysis
+      - name: Scan for common Rails security vulnerabilities
         run: bin/brakeman --no-pager
 
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,10 +38,13 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Dar permisos de ejecución a bin/rubocop
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Grant execution permissions for bin/rubocop
         run: chmod +x bin/rubocop
 
-      - name: Lint code for consistent style
+      - name: Run Rubocop for code linting
         run: bin/rubocop -f github
 
   test:
@@ -50,8 +54,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -63,25 +68,67 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: |
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+
+      - name: Validate .env file
+        run: cat .env
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Dar permisos de ejecución a bin/rails
+      - name: Grant execution permissions for bin/rails
         run: chmod +x bin/rails
 
-      - name: Run tests
-        env:
-          RAILS_ENV: test
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432
-        run: bin/rails db:test:prepare test test:system
-
-      - name: Keep screenshots from failed system tests
+      - name: Keep screenshots from failed tests
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: screenshots
-          path: ${{ github.workspace }}/tmp/screenshots
+          path: tmp/screenshots
           if-no-files-found: ignore
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and tag Docker image
+        run: |
+          docker build -t my-rails-app:${{ github.sha }} .
+          docker tag my-rails-app:${{ github.sha }} nimplay/my-rails-app:latest
+
+      - name: Push Docker image to DockerHub
+        run: docker push nimplay/my-rails-app:latest
+
+      - name: Deploy to Amazon Lightsail
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > ssh_key.pem
+          chmod 600 ssh_key.pem
+
+
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@18.119.119.185 << 'EOF'
+            cd ./RoRFakeStore
+            sudo docker pull nimplay/my-rails-app:latest
+            sudo docker compose down
+            sudo docker compose up -d
+          EOF
+
+          rm ssh_key.pem
