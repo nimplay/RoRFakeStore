@@ -124,10 +124,9 @@ jobs:
           chmod 600 ssh_key.pem
           scp -i ssh_key.pem docker-compose.yml your-lightsail-instance:/path/to/deploy/
 
-          ssh -i ssh_key.pem your-lightsail-instance << EOF
-            cd /path/to/deploy/
-            docker pull nimplay/my-rails-app:latest
-            docker compose down
-            docker compose up -d
-          EOF
+          cd /path/to/deploy/
+          docker pull nimplay/my-rails-app:latest
+          docker compose down
+          docker compose up -d
+
           rm ssh_key.pem
