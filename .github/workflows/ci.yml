@@ -114,10 +114,16 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@18.119.119.185'
+          echo "$SSH_PRIVATE_KEY" > ssh_key.pem
+          chmod 600 ssh_key.pem
+
+          ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@18.119.119.185 << 'EOF'
             cd ./RoRFakeStore
             docker pull nimplay/my-rails-app:latest
             docker-compose down
             docker-compose up -d
-          '
+          EOF
+           
+          rm ssh_key.pem
+
 
