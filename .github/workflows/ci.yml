@@ -122,7 +122,7 @@ jobs:
           chmod 600 ssh_key.pem
 
           docker pull nimplay/my-rails-app:latest
-          docker-compose down
-          docker-compose up -d
+          docker compose down
+          docker compose up -d
 
           rm ssh_key.pem
