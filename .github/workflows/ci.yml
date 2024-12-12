@@ -114,8 +114,8 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<lightsail-ip>
-            cd /path/to/your/app
+          ssh -o StrictHostKeyChecking=no -i <(echo "$SSH_PRIVATE_KEY") ubuntu@<lightsail-ip> << 'EOF'
+            cd ./RoRFakeStore
             docker pull nimplay/my-rails-app:latest
             docker-compose down
             docker-compose up -d
