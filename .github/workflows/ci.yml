@@ -125,7 +125,7 @@ jobs:
 
 
           ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@18.119.119.185 << 'EOF'
-            cd /RoRFakeStore
+            cd ./RoRFakeStore
             docker pull nimplay/my-rails-app:latest
             docker compose down
             docker compose up -d
