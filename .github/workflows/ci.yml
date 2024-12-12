@@ -122,9 +122,9 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
-          scp -i ssh_key.pem docker-compose.yml your-lightsail-instance:/path/to/deploy/
+          scp -i ssh_key.pem docker-compose.yml
 
-          cd /path/to/deploy/
+          cd /RoRFakeStore
           docker pull nimplay/my-rails-app:latest
           docker compose down
           docker compose up -d
