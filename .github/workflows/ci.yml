@@ -121,7 +121,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
 
-          cd /RoRFakeStore
+          cd /home/ubuntu/RoRFakeStore
           docker pull nimplay/my-rails-app:latest
           docker-compose down
           docker-compose up -d
