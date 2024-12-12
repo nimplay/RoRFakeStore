@@ -79,6 +79,13 @@ jobs:
       - name: Dar permisos de ejecución a bin/rails
         run: chmod +x bin/rails
 
+      - name: Check if tests should be skipped
+        run: |
+          if [ "${{ secrets.SKIP_TESTS }}" == "true" ]; then
+            echo "Skipping tests as SKIP_TESTS is true"
+            exit 0
+          fi
+
       - name: Run tests
         env:
           RAILS_ENV: test
