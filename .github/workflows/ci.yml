@@ -128,9 +128,12 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
-          
-          docker pull nimplay/my-rails-app:latest
-          docker compose down
-          docker compose up -d
+          scp -i ssh_key.pem docker-compose.yml your-lightsail-instance:/path/to/deploy/
 
+          ssh -i ssh_key.pem your-lightsail-instance << EOF
+            cd /path/to/deploy/
+            docker pull nimplay/my-rails-app:latest
+            docker compose down
+            docker compose up -d
+          EOF
           rm ssh_key.pem
