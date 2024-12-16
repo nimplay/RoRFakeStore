@@ -1,0 +1,13 @@
+services:
+    cloudflared:
+        cantainer_name: tunel
+        image: cloudflare/cloudflared:latest
+        command: tunnel --no-autoupdate run --token
+            eyJhIjoiZDVlNTNkYzlkMjVjNzBkYzAzMDk0NzUzNzM2ZTk4NDkiLCJ0IjoiNTQwOTY2OTUtZThlYy00OTQxLWFhMGYtZGRmMmUyNGRiYWRhIiwicyI6IlpHTXpOVFZrWkdVdFlXWXlPUzAwWXpjekxXSmlPRE10WXprNU1qSTNZbVpsWTJWaiJ9
+        networks:
+          main
+
+networks:
+  main:
+    external: true
+    driver: bridge
