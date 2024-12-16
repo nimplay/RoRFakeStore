@@ -123,7 +123,6 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 600 ssh_key.pem
 
-
           ssh -o StrictHostKeyChecking=no -i ssh_key.pem ubuntu@18.119.119.185 << 'EOF'
             cd ./RoRFakeStore
             sudo docker pull nimplay/my-rails-app:latest
