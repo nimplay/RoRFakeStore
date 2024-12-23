@@ -32,4 +32,4 @@ gem "ostruct"
 gem "paypal-sdk-rest", "~> 1.7", ">= 1.7.6"
 
 gem "ssl_certifier", "~> 0.1.5"
-gem "openssl", "~> 3.2"
+gem "openssl", "~> 3.3"
