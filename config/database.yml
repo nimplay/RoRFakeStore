@@ -2,25 +2,23 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV['POSTGRES_HOST'] || 'postgres' %>
-  port: 5432
+  host: <%= ENV['POSTGRES_HOST'] || 'localhost' %> # 'localhost' para entorno local
+  port: <%= ENV['POSTGRES_PORT'] || 5432 %>       # Puerto por defecto
+  username: <%= ENV['POSTGRES_USER'] || 'postgres' %> # Usuario por defecto
+  password: <%= ENV['POSTGRES_PASSWORD'] || '1234' %> # Sin contraseña localmente
 
 development:
   <<: *default
   database: senoragarabato
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
 
 test:
   <<: *default
   database: senoragarabato_test
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
 
 production:
   <<: *default
-  database: <%= ENV['POSTGRES_DB'] %>
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
-  host: <%= ENV['POSTGRES_HOST'] || 'postgres' %>
+  database: <%= ENV['POSTGRES_DB'] || 'senoragarabato_production' %>
+  username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || '' %>
+  host: <%= ENV['POSTGRES_HOST'] || 'localhost' %>
   pool: 5

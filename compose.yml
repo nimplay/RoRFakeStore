@@ -16,17 +16,22 @@ services:
   demo_web:
     container_name: 'demo_senoragarabato'
     build: .
-    command: ./bin/rails server
+    command: bundle exec rails s -b '0.0.0.0'
     ports:
-      - "3001:3000" 
+      - "3001:3001"
+    environment:
+      - RAILS_ENV=development
+      - RAILS_SERVE_STATIC_FILES=false
+      - RAILS_LOG_TO_STDOUT=true
     env_file: ".env"
     networks:
       - main
     volumes:
-      - app-storage:/rails/storage
+      - demo-storage:/rails/storage
 
 volumes:
   app-storage: {}
+  demo-storage: {} 
 
 networks:
   main:
